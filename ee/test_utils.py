@@ -1,5 +1,5 @@
 import pytest
-from utils import arrange_for_pretty_defaults_abuse
+from ee.utils import arrange_for_pretty_defaults_abuse, flip_time_format
 
 
 @pytest.fixture
@@ -25,6 +25,16 @@ def test_arranging_with_predicate():
     assert actual == ""
 
 
-@pytest.mark.parametrize("input, expected, msg", [])
-def test_flip_format(input, expected, msg):
-    assert 0
+@pytest.mark.parametrize(
+    "input, expected",
+    [
+        ("1602216652", "Thu, Oct 8 2020 23:10:52"),
+        ("2020-10-09", "1602201600"),
+        # ("now", ""),
+        # ("tomorrow", ""),
+        # ("yesterday", ""),
+    ],
+)
+def test_flip_format(input, expected):
+    actual = flip_time_format(input)
+    assert expected == actual

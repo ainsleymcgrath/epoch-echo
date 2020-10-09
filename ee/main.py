@@ -1,7 +1,7 @@
 import typer
 from click import clear
-from constants import HOTWORD_ACTIONS, NO_TIMES_YET_MESSAGE
-from utils import arrange_for_pretty_defaults_abuse
+from ee.constants import HOTWORD_ACTIONS, NO_TIMES_YET_MESSAGE
+from ee.utils import arrange_for_pretty_defaults_abuse, flip_time_format
 
 from state import state
 
@@ -26,7 +26,9 @@ def repl(tz: str = "America/Chicago"):
             prompt_suffix=colored_prompt,  # suffix lookin like a prefix
             default=NO_TIMES_YET_MESSAGE
             if state.no_times_set
-            else arrange_for_pretty_defaults_abuse(state.times),
+            else arrange_for_pretty_defaults_abuse(
+                [f"{s.ljust(23)} => {flip_time_format(s)}" for s in state.times]
+            ),
             show_default=True,
         )
 
@@ -41,5 +43,6 @@ def repl(tz: str = "America/Chicago"):
 
 @app.command()
 def flip():
-    """Fart!"""
+    """Non-interactive. Take a date/timestamp (or list thereof) and print them to
+    stdout"""
     print("fart")

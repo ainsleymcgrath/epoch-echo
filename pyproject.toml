@@ -6,7 +6,7 @@ readme = "README.md"
 authors = ["Ainsley <ainsley@amper.xyz>"]
 
 [tool.poetry.scripts]
-ee = "cli.main:app"
+ee = "ee.main:app"
 
 [tool.poetry.dependencies]
 python = "^3.7"

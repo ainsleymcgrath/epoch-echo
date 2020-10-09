@@ -1,5 +1,7 @@
 from typing import Callable, List
 
+import pendulum
+
 
 def arrange_for_pretty_defaults_abuse(
     items, should_format: Callable[[List[str]], bool] = len
@@ -23,6 +25,17 @@ def arrange_for_pretty_defaults_abuse(
     return f"\n{indented_items}\n " if should_format(items) else ""
 
 
-def flip_format(date: str) -> str:
+def flip_time_format(date: str, tz: str = "America/Chicago") -> str:
     """If it's an epoch get back a friendly date[time].
     If it's anything else, get an epoch"""
+
+    try:
+        timestamp = int(date)
+        return pendulum.from_timestamp(timestamp, tz=tz).format(
+            "ddd[,] MMM D YYYY HH:mm:ss"
+        )
+    except ValueError:
+        try:
+            return str(pendulum.parse(date).timestamp()).split(".")[0]
+        except pendulum.parsing.exceptions.ParserError:
+            return f"Couldn't parse: {date}"
