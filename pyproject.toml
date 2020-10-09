@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "cli"
+name = "ee"
 version = "0.1.0"
 description = "Ok"
 readme = "README.md"

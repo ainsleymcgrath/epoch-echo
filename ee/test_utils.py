@@ -1,6 +1,5 @@
 import pytest
-
-from main import arrange_for_pretty_defaults_abuse
+from utils import arrange_for_pretty_defaults_abuse
 
 
 @pytest.fixture
