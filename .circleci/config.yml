@@ -21,6 +21,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - run: poetry install
       - run: poetry run pytest --no-header --new-first --showlocals
   # publish_test_pypi:
   #   executor: python-docker
