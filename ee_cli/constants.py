@@ -1,6 +1,6 @@
 import typer
 
-from state import state
+from ee_cli.state import state
 
 EXIT_HOTWORDS = {"end", "exit", "done", "quit"}
 RESET_HOTWORDS = {"clear", "restart"}
