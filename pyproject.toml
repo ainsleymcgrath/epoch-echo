@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "ee"
+name = "ee-cli"
 version = "0.1.0"
 description = "Ok"
 readme = "README.md"
 authors = ["Ainsley <ainsley@amper.xyz>"]
 
 [tool.poetry.scripts]
-ee = "ee.main:app"
+ee = "ee_cli.main:app"
 
 [tool.poetry.dependencies]
 python = "^3.7"
