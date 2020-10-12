@@ -23,16 +23,24 @@ jobs:
           at: .
       - run: poetry install
       - run: poetry run pytest --new-first --showlocals
-  # publish_test_pypi:
-  #   executor: python-docker
-  #     - attach_workspace:
-  #         at: .
-  #     - run: poetry publish --build -r test-pypi
-  #   steps: 
+  publish_test_pypi:
+    executor: python-docker
+    steps:
+      - attach_workspace:
+          at: .
+      - run: poetry config repositories.test-pypi "https://test.pypi.org/legacy/"
+      - run: poetry config pypi-token.test-pypi ${PYPI_TEST_TOKEN}
+      - run: poetry publish --build -r test-pypi
 workflows:
   build_test:
     jobs:
       - get_poetry
       - test:
+          requires:
+            - get_poetry
+  build_publish_test_pypi:
+    jobs:
+      - get_poetry
+      - publish_test_pypi:
           requires:
             - get_poetry
