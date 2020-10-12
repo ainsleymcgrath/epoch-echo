@@ -12,6 +12,10 @@ jobs:
       - run: sudo apt-get update
       - run: sudo apt-get install --no-install-recommends -y build-essential
       - run: curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
   test:
     executor: python-docker
     steps:
