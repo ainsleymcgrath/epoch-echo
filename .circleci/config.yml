@@ -47,3 +47,6 @@ workflows:
             - get_poetry
           context:
             - pypi
+          filters:
+            branches:
+              only: pypi-test
