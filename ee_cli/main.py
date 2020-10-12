@@ -1,7 +1,7 @@
 import typer
 from click import clear
-from ee.constants import HOTWORD_ACTIONS, NO_TIMES_YET_MESSAGE
-from ee.utils import arrange_for_pretty_defaults_abuse, flip_time_format
+from ee_cli.constants import HOTWORD_ACTIONS, NO_TIMES_YET_MESSAGE
+from ee_cli.utils import arrange_for_pretty_defaults_abuse, flip_time_format
 
 from state import state
 

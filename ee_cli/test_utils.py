@@ -1,5 +1,5 @@
 import pytest
-from ee.utils import arrange_for_pretty_defaults_abuse, flip_time_format
+from ee_cli.utils import arrange_for_pretty_defaults_abuse, flip_time_format
 
 
 @pytest.fixture
