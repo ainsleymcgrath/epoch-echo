@@ -40,6 +40,8 @@ workflows:
           requires:
             - get_poetry
   build_publish_test_pypi:
+    when:
+      equal: [ pypi-test, << pipeline.git.branch >> ]
     jobs:
       - get_poetry
       - publish_test_pypi:
