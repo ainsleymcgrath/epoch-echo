@@ -1,9 +1,9 @@
 [tool.poetry]
 name = "ee-cli"
-version = "0.1.0"
-description = "Ok"
+version = "0.0.1"
+description = "A salve for timesmiths"
 readme = "README.md"
-authors = ["Ainsley <ainsley@amper.xyz>"]
+authors = ["Ainsley <mcgrath.ainsley@gmail.com>"]
 
 [tool.poetry.scripts]
 ee = "ee_cli.main:app"
