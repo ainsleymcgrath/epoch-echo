@@ -3,7 +3,7 @@ from typing import Callable, List
 import pendulum
 
 
-def arrange_for_pretty_defaults_abuse(
+def pretty_delta(
     items, should_format: Callable[[List[str]], bool] = len
 ) -> str:
     """Format a list of items so they'll look nice in the prompt, which we are abusing

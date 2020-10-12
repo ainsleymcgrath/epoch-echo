@@ -1,25 +1,25 @@
 import pytest
-from ee_cli.utils import arrange_for_pretty_defaults_abuse, flip_time_format
+from ee_cli.utils import flip_time_format, pretty_delta
 
 
 @pytest.fixture
-def arranged_list() -> str:
+def expected_formatted_list() -> str:
     THREE_SPACES = " " * 3
     return f"\n{THREE_SPACES}foo\n{THREE_SPACES}bar\n{THREE_SPACES}baz\n "
 
 
-def test_arranging_with_list(arranged_list):
-    actual = arrange_for_pretty_defaults_abuse(["foo", "bar", "baz"])
-    assert actual == arranged_list
+def test_pretty_delta_with_list(expected_formatted_list):
+    actual = pretty_delta(["foo", "bar", "baz"])
+    assert actual == expected_formatted_list
 
 
-def test_arranging_empty_list():
-    actual = arrange_for_pretty_defaults_abuse([])
+def test_pretty_delta_empty_list():
+    actual = pretty_delta([])
     assert actual == ""
 
 
-def test_arranging_with_predicate():
-    actual = arrange_for_pretty_defaults_abuse(
+def test_pretty_delta_with_predicate():
+    actual = pretty_delta(
         ["fizz!", "buzz"], lambda x: "buzz" not in x
     )
     assert actual == ""

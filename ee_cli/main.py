@@ -1,7 +1,7 @@
 import typer
 from click import clear
 from ee_cli.constants import HOTWORD_ACTIONS, NO_TIMES_YET_MESSAGE
-from ee_cli.utils import arrange_for_pretty_defaults_abuse, flip_time_format
+from ee_cli.utils import pretty_delta, flip_time_format
 from ee_cli.state import state
 
 app = typer.Typer(help="Endlessly grokking time back and forth")
@@ -25,7 +25,7 @@ def repl(tz: str = "America/Chicago"):
             prompt_suffix=colored_prompt,  # suffix lookin like a prefix
             default=NO_TIMES_YET_MESSAGE
             if state.no_times_set
-            else arrange_for_pretty_defaults_abuse(
+            else pretty_delta(
                 [f"{s} => {flip_time_format(s)}" for s in state.times]
             ),
             show_default=True,
