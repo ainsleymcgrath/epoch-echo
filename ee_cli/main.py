@@ -1,3 +1,4 @@
+"""Entrypoint for the `ee` executable."""
 from typing import List
 
 import typer
@@ -13,10 +14,21 @@ from ee_cli.ui import UserInputTransformationStore, make_dispatcher
 app = typer.Typer(name="ee", help="A salve for timesmiths 🧴🕰️")
 
 
-@app.command()
-def repl(tz: str = "America/Chicago"):
-    """Give an epoch, get a datetime. And vice versa."""
+@app.command(
+    help=f"""In an infinite prompt, give an epoch, get a datetime. And vice versa.
 
+    Can be controlled with various redundant hotwords:
+
+        To exit the repl use: {EXIT_HOTWORDS}
+        [ctrl + d] and [ctrl + c] also work.
+
+        To remove the last item from the list use: {DROP_HOTWORDS}
+        To remove arbitrary items, include the 0-based index of the item.
+        i.e. `drop 3` will drop the 4th item shown on screen.
+
+        To clear the list use: {RESET_HOTWORDS}"""
+)
+def repl(tz: str = "America/Chicago"):  # noqa: D103
     colored_prompt = typer.style("\n\n >  ", fg=typer.colors.BRIGHT_RED)
     clear()  # create a sort of full-screen view
     user_input_transformations = UserInputTransformationStore()
