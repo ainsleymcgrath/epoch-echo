@@ -26,7 +26,9 @@ class UserInputTransformationStore(MutableSequence):
 
     def __delitem__(self, key):
         try:
-            del self._list[int(key)]  # dispatcher sends a string when user requests drop
+            del self._list[
+                int(key)
+            ]  # dispatcher sends a string when user requests drop
         except IndexError:
             pass
 
@@ -42,22 +44,23 @@ class UserInputTransformationStore(MutableSequence):
 
 
 def make_dispatcher(*args: Tuple[List[str], Callable], default=None):
-    """Returns a function that takes a string. If the string is in one of the lists
-    that was passed here along with some function, then that function is called.
+    """Returns a function that takes a string. The first word of the string is
+    potentially an action named in one of the lists passed here. The remaining words
+    are passed to the action callable if they are present.
 
-    If a default is passed, it will be called with the string input passed to the
-    dispatcher"""
+    If a default fn is passed, it will be called with the string input passed to the
+    dispatcher, unaltered."""
 
     switch = {action: fn for actions, fn in args for action in actions}
 
     def _dispatcher(action: str):
-        action, *args = action.split(" ")
+        key, *args = action.split(" ")
 
-        if action in switch:
-            switch[action](*args)
+        if key in switch:
+            switch[key](*args)
             return
 
         if default is not None:
-            default(action)  # treat the action as input for the default fn
+            default(action)
 
     return _dispatcher
