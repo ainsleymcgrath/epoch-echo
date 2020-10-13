@@ -16,7 +16,14 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 ### Fixes
 * Allow arrow keys for editing input in `repl` and moving through history.
 
-## 0.0.5 - (2020-10-13)
+## 0.0.7 - (2020-10-13)
+
+### Fixes
+
+* This doc was wrong (incorrectly labeled 0.0.6)
+* Rebase mistake left gif paths broken
+
+## 0.0.6 - (2020-10-13)
 
 ### Fixes
 
