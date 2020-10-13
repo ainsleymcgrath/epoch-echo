@@ -10,7 +10,7 @@ from ee_cli.constants import (
 )
 from ee_cli.ui import make_dispatcher, UserInputTransformationStore
 
-app = typer.Typer(help="A salve for timesmiths 🧴🕰️")
+app = typer.Typer(name="ee", help="A salve for timesmiths 🧴🕰️")
 
 
 @app.command()
