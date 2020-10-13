@@ -18,6 +18,14 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### Breaks
 
+## 0.0.4 - (2020-10-13)
+
+---
+
+### New
+
+* Docs 📖 Ironically including this document 🤔 Trying out generated usage docs from typer-cli.
+
 
 ## 0.0.3 - (2020-10-13)
 ---
