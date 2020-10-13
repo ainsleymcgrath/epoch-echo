@@ -1,8 +1,14 @@
+from typing import List
+
 import typer
 from click import clear
-from ee_cli.constants import HOTWORD_ACTIONS, NO_TIMES_YET_MESSAGE
-from ee_cli.utils import pretty_delta, flip_time_format
-from ee_cli.state import state
+from ee_cli.constants import (
+    DROP_HOTWORDS,
+    NO_TIMES_YET_MESSAGE,
+    RESET_HOTWORDS,
+    EXIT_HOTWORDS,
+)
+from ee_cli.ui import make_dispatcher, UserInputTransformationStore
 
 app = typer.Typer(help="Endlessly grokking time back and forth")
 
@@ -17,31 +23,31 @@ def repl(tz: str = "America/Chicago"):
     Type 'done' to be done."""
 
     colored_prompt = typer.style("\n\n >  ", fg=typer.colors.BRIGHT_RED)
-    clear()
+    clear()  # create a sort of full-screen view
+    user_input_transformations = UserInputTransformationStore()
+
+    dispatch = make_dispatcher(
+        [RESET_HOTWORDS, user_input_transformations.clear],
+        [DROP_HOTWORDS, user_input_transformations.pop],
+        [EXIT_HOTWORDS, exit],
+        default=user_input_transformations.append,
+    )
 
     while True:
         input_ = typer.prompt(
             "",
             prompt_suffix=colored_prompt,  # suffix lookin like a prefix
-            default=NO_TIMES_YET_MESSAGE
-            if state.no_times_set
-            else pretty_delta(
-                [f"{s} => {flip_time_format(s)}" for s in state.times]
-            ),
+            default=user_input_transformations or NO_TIMES_YET_MESSAGE,
             show_default=True,
         )
 
-        if input_ in HOTWORD_ACTIONS:
-            HOTWORD_ACTIONS[input_]()
-            continue
-
-        state.add_time(input_)
-        typer.echo(input_)
+        dispatch(input_)
         clear()
 
 
 @app.command()
-def flip():
+def flip(dates: List[str]):
     """Non-interactive. Take a date/timestamp (or list thereof) and print them to
     stdout"""
-    print("fart")
+    store = UserInputTransformationStore(*dates)
+    typer.echo(store)

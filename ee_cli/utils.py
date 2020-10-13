@@ -3,7 +3,7 @@ from typing import Callable, List
 import pendulum
 
 
-def pretty_delta(
+def mangled_prompt_default(
     items, should_format: Callable[[List[str]], bool] = len
 ) -> str:
     """Format a list of items so they'll look nice in the prompt, which we are abusing
@@ -38,4 +38,4 @@ def flip_time_format(date: str, tz: str = "America/Chicago") -> str:
         try:
             return str(pendulum.parse(date).timestamp()).split(".")[0]
         except pendulum.parsing.exceptions.ParserError:
-            return f"Couldn't parse: {date}"
+            return f"Couldn't parse: {date}. Try again?."

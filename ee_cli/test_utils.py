@@ -1,5 +1,5 @@
 import pytest
-from ee_cli.utils import flip_time_format, pretty_delta
+from ee_cli.utils import flip_time_format, mangled_prompt_default
 
 
 @pytest.fixture
@@ -8,18 +8,18 @@ def expected_formatted_list() -> str:
     return f"\n{THREE_SPACES}foo\n{THREE_SPACES}bar\n{THREE_SPACES}baz\n "
 
 
-def test_pretty_delta_with_list(expected_formatted_list):
-    actual = pretty_delta(["foo", "bar", "baz"])
+def test_mangle_with_list(expected_formatted_list):
+    actual = mangled_prompt_default(["foo", "bar", "baz"])
     assert actual == expected_formatted_list
 
 
-def test_pretty_delta_empty_list():
-    actual = pretty_delta([])
+def test_mangle_empty_list():
+    actual = mangled_prompt_default([])
     assert actual == ""
 
 
-def test_pretty_delta_with_predicate():
-    actual = pretty_delta(
+def test_mangle_with_predicate():
+    actual = mangled_prompt_default(
         ["fizz!", "buzz"], lambda x: "buzz" not in x
     )
     assert actual == ""
