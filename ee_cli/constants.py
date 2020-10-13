@@ -6,6 +6,10 @@ DROP_HOTWORDS = {"drop", "remove", "rm"}
 HELP_HOTWORDS = {}
 SPECIAL_KEYS = {}
 
+PENDULUM_SEMANTIC_ATTRS = {"tomorrow", "today", "yesterday"}
+
+COULD_NOT_PARSE_ERROR_MESSAGE = "Couldn't parse: {date}. Try again?."
+
 
 def _quit():
     raise typer.Exit
