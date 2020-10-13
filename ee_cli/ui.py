@@ -1,7 +1,5 @@
-from typing import Callable, List, Tuple
 from collections.abc import MutableSequence
-
-from typer import clear
+from typing import Callable, List, Tuple
 
 from ee_cli.utils import flip_time_format, mangled_prompt_default
 
@@ -9,6 +7,7 @@ from ee_cli.utils import flip_time_format, mangled_prompt_default
 class UserInputTransformationStore(MutableSequence):
     """Provides all user-facing data."""
 
+    # should keep formatted list + unaltered list
     def __init__(self, *items):
         # maybe should take format stuff as well
         self._list = list(items)
@@ -24,6 +23,7 @@ class UserInputTransformationStore(MutableSequence):
     def __setitem__(self, key, value):
         self._list[int(key)] = value
 
+    # should pop only from formatted list
     def __delitem__(self, key):
         try:
             del self._list[
@@ -44,13 +44,13 @@ class UserInputTransformationStore(MutableSequence):
 
 
 def make_dispatcher(*args: Tuple[List[str], Callable], default=None):
-    """Returns a function that takes a string. The first word of the string is
-    potentially an action named in one of the lists passed here. The remaining words
-    are passed to the action callable if they are present.
+    """Return a function that takes a string as input.
+    The first word of the string is potentially an action named in one of the lists
+    passed here. The remaining words are passed to the action callable if they are
+    present.
 
     If a default fn is passed, it will be called with the string input passed to the
     dispatcher, unaltered."""
-
     switch = {action: fn for actions, fn in args for action in actions}
 
     def _dispatcher(action: str):
