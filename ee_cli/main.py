@@ -43,7 +43,11 @@ def repl(tz: str = "America/Chicago"):  # noqa: D103
     while True:
         input_ = typer.prompt(
             "",
-            prompt_suffix=colored_prompt,  # suffix lookin like a prefix
+            # suffix lookin like a prefix
+            prompt_suffix=colored_prompt,
+            # the 'default' is being used as the main UI element for the user
+            # by passing multiline strings in, it can be used to display lists and
+            # blocks of text
             default=user_input_transformations or NO_TIMES_YET_MESSAGE,
             show_default=True,
         )
