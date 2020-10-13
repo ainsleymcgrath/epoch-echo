@@ -16,7 +16,17 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 ### Fixes
 * Allow arrow keys for editing input in `repl` and moving through history.
 
-### Breaks
+## 0.0.5 - (2020-10-13)
+
+### Changes
+
+* Gifs in the docs!
+
+---
+
+### New
+
+*
 
 ## 0.0.4 - (2020-10-13)
 
