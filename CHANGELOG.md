@@ -18,15 +18,15 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ## 0.0.5 - (2020-10-13)
 
+### Fixes
+
+* Gifs were borked because I wasn't using relative paths.
+
+## 0.0.5 - (2020-10-13)
+
 ### Changes
 
 * Gifs in the docs!
-
----
-
-### New
-
-*
 
 ## 0.0.4 - (2020-10-13)
 
