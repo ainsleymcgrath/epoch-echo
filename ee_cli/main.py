@@ -10,17 +10,12 @@ from ee_cli.constants import (
 )
 from ee_cli.ui import make_dispatcher, UserInputTransformationStore
 
-app = typer.Typer(help="Endlessly grokking time back and forth")
+app = typer.Typer(help="A salve for timesmiths 🧴🕰️")
 
 
 @app.command()
 def repl(tz: str = "America/Chicago"):
-    """Open a never-ending prompt that echoes back whatever time you type as the
-    opposite version of itself. Give an epoch, get a datetime and vice versa.
-
-    The repl also can take a list of timestamps separated by spaces.
-
-    Type 'done' to be done."""
+    """Give an epoch, get a datetime. And vice versa."""
 
     colored_prompt = typer.style("\n\n >  ", fg=typer.colors.BRIGHT_RED)
     clear()  # create a sort of full-screen view
@@ -47,7 +42,7 @@ def repl(tz: str = "America/Chicago"):
 
 @app.command()
 def flip(dates: List[str]):
-    """Non-interactive. Take a date/timestamp (or list thereof) and print them to
-    stdout"""
+    """`repl` without the prompt.
+    Takes a list of dates/timestamps (mixing them works fine)"""
     store = UserInputTransformationStore(*dates)
     typer.echo(store)
