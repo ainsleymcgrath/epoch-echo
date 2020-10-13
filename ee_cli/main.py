@@ -4,11 +4,11 @@ import typer
 from click import clear
 from ee_cli.constants import (
     DROP_HOTWORDS,
+    EXIT_HOTWORDS,
     NO_TIMES_YET_MESSAGE,
     RESET_HOTWORDS,
-    EXIT_HOTWORDS,
 )
-from ee_cli.ui import make_dispatcher, UserInputTransformationStore
+from ee_cli.ui import UserInputTransformationStore, make_dispatcher
 
 app = typer.Typer(name="ee", help="A salve for timesmiths 🧴🕰️")
 
