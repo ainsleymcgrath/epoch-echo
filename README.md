@@ -30,4 +30,14 @@ ee # display help and list commands
 
 # Usage
 
-See [USAGE.md](./USAGE.md)
+Interactive (`ee repl`):
+
+![render1602597559414](/Users/ains/repos/tso/epoch-echo/repl.gif)
+
+Non-interactive (`ee flip`):
+
+![render1602597559414](/Users/ains/repos/tso/epoch-echo/flip.gif)
+
+Gifs courtesy of [terminalizer](https://github.com/faressoft/terminalizer).
+
+See [USAGE.md](./USAGE.md) for more
