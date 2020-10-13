@@ -12,7 +12,7 @@ Born from the grumblings of a crunchy shell-dweller, `ee-cli` is designed to fit
 
 The 2 commands both take inputs as either epoch timestamps or datetimes and print them back as the opposite. `ee` uses [pendulum](https://pendulum.eustace.io) for these conversions. By default, `ee` supports the [same datetime formats](https://pendulum.eustace.io/docs/#rfc-3339) as `pendulum.parse`.
 
-Copypasta your machine-flavored datetimes from the db or whatever into the `ee repl` interface, and ahhhh 😌 a nice human date right there for you in 0 clicks 🌚. Pass a whole long list of some ridiculous mixture of epoch dates and readable datetimes to `ee flip` and behold 🙀 the grand switcharoo 🎠
+Copypasta your machine-flavored datetimes from the db or whatever into the `ee repl` interface, and ahhhh 😌 a nice human date right there for you in 0 clicks 🌚. Pass a whole long list of some ridiculous mixture of epoch dates and readable datetimes to `ee flip` and witness 🙀 the grand switcharoo 🎠
 
 ## Installation
 
@@ -27,3 +27,7 @@ The executable is `ee`
 ```shell
 ee # display help and list commands
 ```
+
+# Usage
+
+See [USAGE.md](./USAGE.md)
