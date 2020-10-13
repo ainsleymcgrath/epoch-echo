@@ -1,2 +1,10 @@
 [flake8]
 max-line-length = 88
+ignore=
+  # blank line after 'summary' docstring--silly!
+  D205,
+  # closing quote on multiline docstring--that's not pep!
+  D209,
+per-file-ignores =
+  # allow missing docstrings in tests
+  test_*.py: D100, D103
