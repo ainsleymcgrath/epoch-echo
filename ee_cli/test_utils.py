@@ -3,7 +3,7 @@ import pytest
 from ee_cli import utils
 from ee_cli.constants import COULD_NOT_PARSE_ERROR_MESSAGE
 from ee_cli.settings import Settings
-from ee_cli.utils import flip_time_format, mangled_prompt_default, try_parse_formats
+from ee_cli.utils import flip_time_format, try_parse_formats
 
 
 @pytest.fixture(autouse=True)
@@ -17,21 +17,6 @@ def today_is_my_birthday():
 def expected_formatted_list() -> str:
     THREE_SPACES = " " * 3
     return f"\n{THREE_SPACES}foo\n{THREE_SPACES}bar\n{THREE_SPACES}baz\n "
-
-
-def test_mangle_with_list(expected_formatted_list):
-    actual = mangled_prompt_default(["foo", "bar", "baz"])
-    assert actual == expected_formatted_list
-
-
-def test_mangle_empty_list():
-    actual = mangled_prompt_default([])
-    assert actual == ""
-
-
-def test_mangle_with_predicate():
-    actual = mangled_prompt_default(["fizz!", "buzz"], lambda x: "buzz" not in x)
-    assert actual == ""
 
 
 @pytest.mark.parametrize(

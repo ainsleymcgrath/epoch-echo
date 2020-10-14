@@ -1,32 +1,11 @@
 """Utility functions. Lots of work with strings."""
-from typing import Callable, List, Union
+from typing import Union
 
 import pendulum
 from ee_cli.constants import COULD_NOT_PARSE_ERROR_MESSAGE, PENDULUM_SEMANTIC_ATTRS
 from ee_cli.settings import Settings
 
 settings = Settings()
-
-
-def mangled_prompt_default(
-    items, should_format: Callable[[List[str]], bool] = len
-) -> str:
-    """Format a list of items so they'll look nice in the prompt, which we are abusing
-    by showing output in it. Ultimately, in the CLI defaults, it'll look like this:
-
- [
-   item
-   item
-   item
- ]
-
-    The space prefixing the first bracket is automatically added by click.
-    There's a suffix of a newline followed by a single space in the function output.
-    That aligns the closing bracket with the first.
-    The items within are indented 2 spaces relative to the position of the bracket"""
-    THREE_SPACES = " " * 3
-    indented_items = "\n".join(f"{THREE_SPACES}{i}" for i in items)
-    return f"\n{indented_items}\n " if should_format(items) else ""
 
 
 def _epoch_int_no_millis(epoch: Union[str, int, float]) -> int:
