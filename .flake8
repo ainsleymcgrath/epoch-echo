@@ -5,6 +5,8 @@ ignore=
   D205,
   # closing quote on multiline docstring--that's not pep!
   D209,
+  # line before binary operator
+  W503,
 per-file-ignores =
   # allow missing docstrings in tests
   test_*.py: D100, D103
