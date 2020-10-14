@@ -1,3 +1,4 @@
+"""Utility functions. Lots of work with strings."""
 from typing import Callable, List, Union
 
 import pendulum
@@ -36,18 +37,33 @@ def _epoch_int_no_millis(epoch: Union[str, int, float]) -> int:
 def flip_time_format(date: str, tz: str = settings.default_timezone) -> str:
     """If it's an epoch get back a friendly date[time].
     If it's anything else, get an epoch."""
-    # TODO: try user-defined input formats
     try:  # passing an epoch feels like primary use case--or at lest it's mine
         timestamp = _epoch_int_no_millis(date)
         return pendulum.from_timestamp(timestamp, tz=tz).to_datetime_string()
+    # it's not an epoch if we make it here
     except ValueError:
         if date in PENDULUM_SEMANTIC_ATTRS:
             # pendulum can't parse the strings in that constant (even though it should)
             # but they do exist as methods!
-            value: pendulum.DateTime = getattr(pendulum, date)()
+            value: pendulum.DateTime = getattr(pendulum, date)(tz=tz)
             return str(_epoch_int_no_millis(value.timestamp()))
         try:
-            # here, check for custom format rules
-            return str(pendulum.parse(date).timestamp()).split(".")[0]
+            maybe_epoch = try_parse_formats(
+                date, *settings.extra_datetime_input_formats
+            )
+            return (
+                maybe_epoch
+                or str(pendulum.parse(date, tz=tz).timestamp()).split(".")[0]
+            )
         except pendulum.parsing.exceptions.ParserError:
             return COULD_NOT_PARSE_ERROR_MESSAGE.format(date=date)
+
+
+def try_parse_formats(date: str, *formats: str, tz: str = settings.default_timezone):
+    """Try calling pendulum.parse with each of the supplied formats."""
+    for format in formats:
+        try:
+            timestamp = pendulum.from_format(date, format, tz=tz).timestamp()
+            return str(_epoch_int_no_millis(timestamp))
+        except ValueError:
+            continue
