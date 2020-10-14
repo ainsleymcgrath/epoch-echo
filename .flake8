@@ -7,6 +7,10 @@ ignore=
   D209,
   # line before binary operator
   W503,
+  # __init__ doesn't need a docstring >:(
+  D107,
+  # neither do magic methods usually >:(
+  D105,
 per-file-ignores =
   # allow missing docstrings in tests
-  test_*.py: D100, D103
+  test_*.py: D100, D101, D102, D103
