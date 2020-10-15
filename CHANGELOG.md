@@ -5,7 +5,6 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 
 ## Unreleased
----
 
 ### New
 * Configuration withe environment variables. i.e. Default timezones, expected date formats.
@@ -15,6 +14,24 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### Fixes
 * Allow arrow keys for editing input in `repl` and moving through history.
+
+## 0.1.1 - (2020-10-14)
+
+Damn near a refactor.
+
+### New
+
+- Significantly richer repl experience with interactive docs
+- Environment variable configuration, which you can inspect in the repl
+- Generally more coherent implementation
+
+###  Fixes
+
+- Leaky state in `repl`
+- Lack of tests
+- Unused settings
+- Undocumented hotrods
+
 
 ## 0.0.7 - (2020-10-13)
 
@@ -37,7 +54,6 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ## 0.0.4 - (2020-10-13)
 
----
 
 ### New
 
@@ -45,7 +61,6 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 
 ## 0.0.3 - (2020-10-13)
----
 
 ### New
 

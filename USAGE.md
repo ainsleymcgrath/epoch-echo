@@ -17,7 +17,7 @@ $ ee [OPTIONS] COMMAND [ARGS]...
 **Commands**:
 
 * `flip`: `repl` without the prompt.
-* `repl`: Give an epoch, get a datetime.
+* `repl`: In an infinite prompt, give an epoch, get a datetime.
 
 ## `ee flip`
 
@@ -40,7 +40,22 @@ $ ee flip [OPTIONS] DATES...
 
 ## `ee repl`
 
-Give an epoch, get a datetime. And vice versa.
+In an infinite prompt, give an epoch, get a datetime. And vice versa.
+
+Can be controlled with various redundant hotwords:
+
+To exit the repl use: `{'quit', 'q', 'end', 'done', 'exit'}`.
+[ctrl + d] and [ctrl + c] also work.
+
+To remove the last item from the list use: `{'drop', 'remove', 'd', 'rm'}`.
+To remove arbitrary items, include the 0-based index of the item.
+i.e. `drop 3` will drop the 4th item shown on screen.
+
+To clear the list use: `{'restart', 'clear', 'c'}`.
+
+To inspect your configuration (env vars) use: `{'settings', 'variables', 'env', 'config', 'vars'}`.
+
+To see this help in the repl use: `{'help', 'h', '?'}`.
 
 **Usage**:
 
