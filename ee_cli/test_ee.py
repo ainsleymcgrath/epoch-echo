@@ -66,5 +66,5 @@ def test_output_format_env(runner, monkeypatch):
     result = runner.invoke(app, ["flip", "0"])
 
     assert (
-        "Q4 1969" == result.output
+        "Q4 1969" in result.output
     ), "Respects custom output formats. (It was still 1969 in Chicago at epoch start)"
