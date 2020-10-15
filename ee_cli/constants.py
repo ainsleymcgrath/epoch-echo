@@ -1,5 +1,8 @@
 """Some things never change."""
 import typer
+from ee_cli.settings import Settings
+
+settings = Settings()
 
 EXIT_HOTWORDS = {"end", "exit", "done", "quit", "q"}
 RESET_HOTWORDS = {"clear", "restart", "c"}
@@ -17,6 +20,7 @@ NO_TIMES_YET_MESSAGE = "Transformations added to the list as you type them"
 HELP_HEADER = typer.style(
     "\n   Type the word 'back' to leave this screen\n\n", typer.colors.BRIGHT_MAGENTA
 )
+
 HOTWORDS_HELP = f"""
 To exit the repl use: {typer.style(str(EXIT_HOTWORDS), typer.colors.RED)}.
 [ctrl + d] and [ctrl + c] also work.
@@ -30,3 +34,7 @@ To clear the list use: {typer.style(str(RESET_HOTWORDS), typer.colors.RED)}.
 To inspect your configuration (env vars) use: {typer.style(str(SHOW_CONFIG_HOTWORDS), typer.colors.RED)}.
 
 To see this help in the repl use: {typer.style(str(HELP_HOTWORDS), typer.colors.RED)}."""
+
+CONFIGURATION_INFO = "\n".join(
+    f"{k.upper()}: {v or '<unset>'}" for k, v in settings.dict().items()
+)

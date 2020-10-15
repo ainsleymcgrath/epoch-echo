@@ -7,6 +7,7 @@ from typing import List
 import typer
 from click import clear
 from ee_cli.constants import (
+    CONFIGURATION_INFO,
     DROP_HOTWORDS,
     EXIT_HOTWORDS,
     GO_BACK_HOTWORDS,
@@ -26,7 +27,7 @@ app = typer.Typer(name="ee", help="A salve for timesmiths 🧴🕰️")
 # UI state data is stored in these variables
 user_inputs = TransformedUserInputStore()
 help_ = OptionallyLatentString(HELP_HEADER + indent(HOTWORDS_HELP, "   "))
-config = OptionallyLatentString("Config???")
+config = OptionallyLatentString(HELP_HEADER + indent(CONFIGURATION_INFO, "   "))
 
 
 # the following functions affect state
