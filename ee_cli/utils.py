@@ -18,7 +18,13 @@ def flip_time_format(date: str, tz: str = settings.default_timezone) -> str:
     If it's anything else, get an epoch."""
     try:  # passing an epoch feels like primary use case--or at lest it's mine
         timestamp = _epoch_int_no_millis(date)
-        return pendulum.from_timestamp(timestamp, tz=tz).to_datetime_string()
+        return (
+            pendulum.from_timestamp(timestamp, tz=tz).to_datetime_string()
+            if not settings.custom_datetime_output_format
+            else pendulum.from_timestamp(timestamp, tz=tz).format(
+                settings.custom_datetime_output_format
+            )
+        )
     # it's not an epoch if we make it here
     except ValueError:
         if date in PENDULUM_SEMANTIC_ATTRS:

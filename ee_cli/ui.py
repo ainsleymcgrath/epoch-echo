@@ -3,13 +3,16 @@ from collections.abc import MutableSequence, Sized
 from textwrap import indent
 from typing import Callable, List, Tuple
 
+from ee_cli.settings import Settings
 from ee_cli.utils import flip_time_format
+
+settings = Settings()
 
 
 class TransformedUserInputStore(MutableSequence):
     """Provides all user-facing data."""
 
-    show_index: bool = False
+    show_index: bool = settings.show_indexes_always
 
     def __init__(self, *items):
         """Make 2 identical lists. Original is for history, working is for display."""

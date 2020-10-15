@@ -3,7 +3,9 @@ For repl tests, the input will always include an exit hotword so the tests can
 actually finish."""
 import pytest
 from click.testing import Result
+from ee_cli import utils
 from ee_cli.constants import COULD_NOT_PARSE_ERROR_MESSAGE
+from ee_cli.settings import Settings
 from main import app
 from typer.testing import CliRunner
 
@@ -55,3 +57,14 @@ def test_repl_conversions(runner):
     last = last_frame(result)
     assert all(s in last for s in ["now", "tomorrow", "today"]), "No inputs get lost"
     assert "Couldn't" not in last
+
+
+def test_output_format_env(runner, monkeypatch):
+    monkeypatch.setattr(
+        utils, "settings", Settings(custom_datetime_output_format="[Q]Q YYYY")
+    )
+    result = runner.invoke(app, ["flip", "0"])
+
+    assert (
+        "Q4 1969" == result.output
+    ), "Respects custom output formats. (It was still 1969 in Chicago at epoch start)"
