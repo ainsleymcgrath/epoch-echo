@@ -1,5 +1,5 @@
 """UI state management."""
-from collections.abc import MutableSequence
+from collections.abc import MutableSequence, Sized
 from textwrap import indent
 from typing import Callable, List, Tuple
 
@@ -81,7 +81,7 @@ def make_dispatcher(*args: Tuple[List[str], Callable], default=None):
     return _dispatcher
 
 
-class OptionallyLatentString:
+class OptionallyLatentString(Sized):
     """A string-ish object that is 'latent' on initialization.
     When self.latent == false, then str(self) == ""."""
 
@@ -99,6 +99,9 @@ class OptionallyLatentString:
 
     def __eq__(self, other):
         return str(self) == str(other)
+
+    def __len__(self):
+        return len(str(self))
 
     def toggle_latency(self):
         """Control the 'show/hide' behavior of this thing."""

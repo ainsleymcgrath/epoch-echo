@@ -14,3 +14,4 @@ ignore=
 per-file-ignores =
   # allow missing docstrings in tests
   test_*.py: D100, D101, D102, D103
+  constants.py: E501

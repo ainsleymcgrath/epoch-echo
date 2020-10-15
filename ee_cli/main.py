@@ -1,4 +1,7 @@
-"""Entrypoint for the `ee` executable."""
+"""Entrypoint for `ee`.
+Functions not decorated with @app are actions to affect state"""
+import readline  # noqa: F401
+from textwrap import indent
 from typing import List
 
 import typer
@@ -6,26 +9,40 @@ from click import clear
 from ee_cli.constants import (
     DROP_HOTWORDS,
     EXIT_HOTWORDS,
+    GO_BACK_HOTWORDS,
+    HELP_HEADER,
+    HELP_HOTWORDS,
+    HOTWORDS_HELP,
     NO_TIMES_YET_MESSAGE,
     RESET_HOTWORDS,
+    SHOW_CONFIG_HOTWORDS,
     TOGGLE_INDEX_HOTWORDS,
 )
-from ee_cli.ui import TransformedUserInputStore, make_dispatcher
+from ee_cli.ui import OptionallyLatentString, TransformedUserInputStore, make_dispatcher
 
 app = typer.Typer(name="ee", help="A salve for timesmiths 🧴🕰️")
 
+
+# UI state data is stored in these variables
 user_inputs = TransformedUserInputStore()
+help_ = OptionallyLatentString(HELP_HEADER + indent(HOTWORDS_HELP, "   "))
+config = OptionallyLatentString("Config???")
 
 
+# the following functions affect state
 def toggle_index():
+    """Show/hide the index of transformed items in the repl."""
     user_inputs.show_index = not user_inputs.show_index
 
 
 def clear_list():
+    """Clear all transformations from the repl."""
     user_inputs.clear()
 
 
 def drop_list_item(*indexes):
+    """Drop the value at any of the specifed indexes.
+    Drop [-1] if no index provided."""
     if not indexes:
         user_inputs.pop()
         return
@@ -38,15 +55,36 @@ def drop_list_item(*indexes):
 
 
 def append_to_list(item):
+    """Add an item to the store for transformation."""
     user_inputs.append(item)
 
 
 def quit():
+    """Leave the repl.
+
+    As of this moment, state needs to be cleaned up on exit in service of testing.
+    During the lifecycle of test invocation, the state variables stick around across
+    runs for some reason."""
+    user_inputs.clear()
+    help_.latent = True
+    config.latent = True
     raise typer.Exit
 
 
 def show_help():
-    ...
+    """Make help visible by toggling the latent property of `help_`."""
+    help_.latent = not help_.latent
+
+
+def show_config():
+    """Make your configuration visible by toggling the latent property on `config`."""
+    config.latent = not config.latent
+
+
+def go_back():
+    """Make all latent strings latent again so they do not show on screen."""
+    for string in [config, help_]:
+        string.latent = True
 
 
 dispatch = make_dispatcher(
@@ -54,23 +92,20 @@ dispatch = make_dispatcher(
     [DROP_HOTWORDS, drop_list_item],
     [TOGGLE_INDEX_HOTWORDS, toggle_index],
     [EXIT_HOTWORDS, quit],
+    [HELP_HOTWORDS, show_help],
+    [SHOW_CONFIG_HOTWORDS, show_config],
+    [GO_BACK_HOTWORDS, go_back],
     default=append_to_list,
 )
 
 
 @app.command(
-    help=f"""In an infinite prompt, give an epoch, get a datetime. And vice versa.
+    help=f"""
+In an infinite prompt, give an epoch, get a datetime. And vice versa.
 
-    Can be controlled with various redundant hotwords:
+Can be controlled with various redundant hotwords:
 
-        To exit the repl use: {EXIT_HOTWORDS}
-        [ctrl + d] and [ctrl + c] also work.
-
-        To remove the last item from the list use: {DROP_HOTWORDS}
-        To remove arbitrary items, include the 0-based index of the item.
-        i.e. `drop 3` will drop the 4th item shown on screen.
-
-        To clear the list use: {RESET_HOTWORDS}"""
+{HOTWORDS_HELP} """
 )
 def repl(tz: str = "America/Chicago"):
     """Give an epoch, get a datetime. And vice versa."""
@@ -78,16 +113,19 @@ def repl(tz: str = "America/Chicago"):
     clear()  # create a full-screen view
 
     while True:
-        input_ = typer.prompt(
-            "",
-            # suffix lookin like a prefix
-            prompt_suffix=colored_prompt,
-            # the 'default' is being used as the main UI element for the user
-            # by passing multiline strings in, it can be used to display lists and
-            # blocks of text
-            default=user_inputs or NO_TIMES_YET_MESSAGE,
-            show_default=True,
+        visible_content = next(
+            (x for x in [help_, config, user_inputs] if len(x)), NO_TIMES_YET_MESSAGE
         )
+        try:
+            input_ = typer.prompt(
+                "",
+                prompt_suffix=colored_prompt,  # suffix lookin like a prefix
+                default=visible_content,
+                show_default=True,
+            )
+        except typer.Abort:
+            # see the quit function for why this is happening
+            quit()
 
         dispatch(input_)
         clear()
