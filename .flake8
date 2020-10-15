@@ -1,2 +1,16 @@
 [flake8]
 max-line-length = 88
+ignore=
+  # blank line after 'summary' docstring--silly!
+  D205,
+  # closing quote on multiline docstring--that's not pep!
+  D209,
+  # line before binary operator
+  W503,
+  # __init__ doesn't need a docstring >:(
+  D107,
+  # neither do magic methods usually >:(
+  D105,
+per-file-ignores =
+  # allow missing docstrings in tests
+  test_*.py: D100, D101, D102, D103

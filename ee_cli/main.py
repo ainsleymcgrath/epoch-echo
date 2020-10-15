@@ -8,10 +8,54 @@ from ee_cli.constants import (
     EXIT_HOTWORDS,
     NO_TIMES_YET_MESSAGE,
     RESET_HOTWORDS,
+    TOGGLE_INDEX_HOTWORDS,
 )
-from ee_cli.ui import UserInputTransformationStore, make_dispatcher
+from ee_cli.ui import TransformedUserInputStore, make_dispatcher
 
 app = typer.Typer(name="ee", help="A salve for timesmiths 🧴🕰️")
+
+user_inputs = TransformedUserInputStore()
+
+
+def toggle_index():
+    user_inputs.show_index = not user_inputs.show_index
+
+
+def clear_list():
+    user_inputs.clear()
+
+
+def drop_list_item(*indexes):
+    if not indexes:
+        user_inputs.pop()
+        return
+
+    user_inputs._working_list = [
+        item
+        for idx, item in enumerate(user_inputs._working_list)
+        if str(idx) not in indexes
+    ]
+
+
+def append_to_list(item):
+    user_inputs.append(item)
+
+
+def quit():
+    raise typer.Exit
+
+
+def show_help():
+    ...
+
+
+dispatch = make_dispatcher(
+    [RESET_HOTWORDS, clear_list],
+    [DROP_HOTWORDS, drop_list_item],
+    [TOGGLE_INDEX_HOTWORDS, toggle_index],
+    [EXIT_HOTWORDS, quit],
+    default=append_to_list,
+)
 
 
 @app.command(
@@ -28,17 +72,10 @@ app = typer.Typer(name="ee", help="A salve for timesmiths 🧴🕰️")
 
         To clear the list use: {RESET_HOTWORDS}"""
 )
-def repl(tz: str = "America/Chicago"):  # noqa: D103
+def repl(tz: str = "America/Chicago"):
+    """Give an epoch, get a datetime. And vice versa."""
     colored_prompt = typer.style("\n\n >  ", fg=typer.colors.BRIGHT_RED)
-    clear()  # create a sort of full-screen view
-    user_input_transformations = UserInputTransformationStore()
-
-    dispatch = make_dispatcher(
-        [RESET_HOTWORDS, user_input_transformations.clear],
-        [DROP_HOTWORDS, user_input_transformations.pop],
-        [EXIT_HOTWORDS, exit],
-        default=user_input_transformations.append,
-    )
+    clear()  # create a full-screen view
 
     while True:
         input_ = typer.prompt(
@@ -48,7 +85,7 @@ def repl(tz: str = "America/Chicago"):  # noqa: D103
             # the 'default' is being used as the main UI element for the user
             # by passing multiline strings in, it can be used to display lists and
             # blocks of text
-            default=user_input_transformations or NO_TIMES_YET_MESSAGE,
+            default=user_inputs or NO_TIMES_YET_MESSAGE,
             show_default=True,
         )
 
@@ -60,5 +97,5 @@ def repl(tz: str = "America/Chicago"):  # noqa: D103
 def flip(dates: List[str]):
     """`repl` without the prompt.
     Takes a list of dates/timestamps (mixing them works fine)"""
-    store = UserInputTransformationStore(*dates)
+    store = TransformedUserInputStore(*dates)
     typer.echo(store)
