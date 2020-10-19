@@ -102,7 +102,7 @@ dispatch = make_dispatcher(
 
 @app.command(
     help=f"""
-In an infinite prompt, give an epoch, get a datetime. And vice versa.
+In an infinite prompt, give an epoch, get a datetime, and vice versa.
 
 Can be controlled with various redundant hotwords:
 
