@@ -4,6 +4,7 @@ import readline  # noqa: F401
 from textwrap import indent
 from typing import List
 
+import pyperclip
 import typer
 from click import clear
 from ee_cli.constants import (
@@ -20,6 +21,7 @@ from ee_cli.constants import (
     TOGGLE_INDEX_HOTWORDS,
 )
 from ee_cli.ui import OptionallyLatentString, TransformedUserInputStore, make_dispatcher
+from ee_cli.utils import flip_time_format
 
 app = typer.Typer(name="ee", help="A salve for timesmiths 🧴🕰️")
 
@@ -133,8 +135,20 @@ def repl(tz: str = "America/Chicago"):
 
 
 @app.command()
-def flip(dates: List[str]):
+def flip(dates: List[str], copy: bool = False, plain: bool = False):
     """`repl` without the prompt.
     Takes a list of dates/timestamps (mixing them works fine)"""
-    store = TransformedUserInputStore(*dates)
-    typer.echo(store)
+    if copy:
+        text = "\n".join(map(flip_time_format, dates))
+        pyperclip.copy(text)
+        typer.echo(
+            f"Converted date{'s' if len(dates) > 1 else ''} copied to clipboard."
+        )
+        return
+
+    output = (
+        "\n".join(map(flip_time_format, dates))
+        if plain
+        else TransformedUserInputStore(*dates)  # __str__ on this makes a pretty list
+    )
+    typer.echo(output)

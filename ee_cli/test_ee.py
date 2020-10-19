@@ -1,6 +1,7 @@
 """Test the UI.
 For repl tests, the input will always include an exit hotword so the tests can
 actually finish."""
+import pyperclip
 import pytest
 from click.testing import Result
 from ee_cli import utils
@@ -59,12 +60,29 @@ def test_repl_conversions(runner):
     assert "Couldn't" not in last
 
 
-def test_output_format_env(runner, monkeypatch):
+def test_flip_with_output_format_env(runner, monkeypatch):
     monkeypatch.setattr(
-        utils, "settings", Settings(custom_datetime_output_format="[Q]Q YYYY")
+        # overriding settings has the same effect as using an env var
+        # although in testing, pydantic does not seem to respect `monkeypatch.setenv`
+        utils,
+        "settings",
+        Settings(custom_datetime_output_format="[Q]Q YYYY"),
     )
     result = runner.invoke(app, ["flip", "0"])
 
     assert (
         "Q4 1969" in result.output
     ), "Respects custom output formats. (It was still 1969 in Chicago at epoch start)"
+
+
+def test_flip_with_copy_flag(runner):
+    # no result needed bc testing against clipboard
+    runner.invoke(app, ["flip", "2020-12-12", "--copy"])
+    assert pyperclip.paste() == "1607752800", "Converted date is sent to clipboard"
+
+
+def test_flip_plain(runner):
+    result = runner.invoke(app, ["flip", "2020-12-12", "--plain"])
+    assert (
+        "=>" not in result.output and " " not in result.output
+    ), "Characters that show up in formatting are not shown"
