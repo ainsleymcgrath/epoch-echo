@@ -30,7 +30,7 @@ Damn near a refactor.
 - Leaky state in `repl`
 - Lack of tests
 - Unused settings
-- Undocumented hotrods
+- Undocumented hotwords
 
 
 ## 0.0.7 - (2020-10-13)
