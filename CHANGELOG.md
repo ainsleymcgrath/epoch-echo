@@ -3,13 +3,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Changelog](http://keepachangelog.com/).
 
-## 0.1.3
+## 0.1.4
 
 ### Fixes
 
-- Broken tests on CI.
+- Implements the changes from the yanked previous release.
 
+## ~~0.1.3~~ (yanked)
 
+### ~~Fixes~~
+
+- ~~Broken tests on CI.~~
 
 ## 0.1.2
 
