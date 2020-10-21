@@ -95,6 +95,9 @@ def copy_to_clipboard():
     """Copy all visible conversion results to the clipboard."""
     values = "\n".join(map(flip_time_format, user_inputs._working_list))
     pyperclip.copy(values)
+    typer.echo(
+        f"Converted date{'s' if len(user_inputs) > 1 else ''} copied to clipboard."
+    )
     quit()
 
 
