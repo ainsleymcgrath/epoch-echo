@@ -30,6 +30,9 @@ To remove the last item from the list use: {typer.style(str(DROP_HOTWORDS), type
 To remove arbitrary items, include the 0-based index of the item.
 i.e. `drop 3` will drop the 4th item shown on screen.
 
+To send all your conversions to the clipboard, use {typer.style(str(COPY_HOTWORDS), typer.colors.RED)}.
+This will exit the repl.
+
 To clear the list use: {typer.style(str(RESET_HOTWORDS), typer.colors.RED)}.
 
 To inspect your configuration (env vars) use: {typer.style(str(SHOW_CONFIG_HOTWORDS), typer.colors.RED)}.
