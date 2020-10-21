@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Changelog](http://keepachangelog.com/).
 
+## 0.1.3
+
+### Fixes
+
+- Broken tests on CI.
+
+
+
 ## 0.1.2
 
 ### New
@@ -14,6 +22,10 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 ### Fixes
 
 - Test coverage continues to improve.
+
+### Breaks
+
+- Ironically, tests fail on CI.
 
 ## 0.1.1 - (2020-10-14)
 
