@@ -1,16 +1,8 @@
-import pendulum
 import pytest
 from ee_cli import utils
 from ee_cli.constants import COULD_NOT_PARSE_ERROR_MESSAGE
 from ee_cli.settings import Settings
 from ee_cli.utils import flip_time_format, try_parse_formats
-
-
-@pytest.fixture(autouse=True)
-def today_is_my_birthday():
-    settings = Settings()
-    my_birthday = pendulum.datetime(1995, 1, 19, tz=settings.default_timezone)
-    pendulum.set_test_now(my_birthday)
 
 
 @pytest.fixture

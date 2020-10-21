@@ -12,12 +12,11 @@ settings = Settings()
 class TransformedUserInputStore(MutableSequence):
     """Provides all user-facing data."""
 
-    show_index: bool = settings.show_indexes_always
-
     def __init__(self, *items):
         """Make 2 identical lists. Original is for history, working is for display."""
         self._original_list = list(items)
         self._working_list = list(items)
+        self.show_index: bool = settings.show_indexes_always
 
     def __str__(self):
         """Arrange the items in a list and indent to look nice in the prompt."""

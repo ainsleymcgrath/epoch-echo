@@ -4,8 +4,8 @@ actually finish."""
 import pyperclip
 import pytest
 from click.testing import Result
-from ee_cli import utils
-from ee_cli.constants import COULD_NOT_PARSE_ERROR_MESSAGE
+from ee_cli import ui, utils
+from ee_cli.constants import COULD_NOT_PARSE_ERROR_MESSAGE, NO_TIMES_YET_MESSAGE
 from ee_cli.settings import Settings
 from main import app
 from typer.testing import CliRunner
@@ -23,7 +23,7 @@ def repl_frames(command_result: Result):
     if we really want to.
 
     This gets you a list of each 'frame'"""
-    return command_result.output.split("\n\n")
+    return command_result.output.split("\n\n >  ")
 
 
 def last_frame(command_result: Result):
@@ -61,11 +61,30 @@ def test_repl_conversions(runner):
 
 
 def test_repl_with_index_always_env(runner, monkeypatch):
-    assert 0
+    monkeypatch.setattr(
+        # overriding settings has the same effect as using an env var
+        ui,
+        "settings",
+        Settings(show_indexes_always=True),
+    )
+
+    result = runner.invoke(app, "repl", input=repl_input_factory("i", "now"))
+    last = last_frame(result)
+    # there are pretty brackets and whitespace around the conversion
+    _, _, conversion, _ = last.split("\n")
+    assert conversion.lstrip().startswith("0"), "The index of the conversion is visible"
 
 
 def test_repl_with_extra_input_formats_env(runner, monkeypatch):
-    assert 0
+    monkeypatch.setattr(
+        # overriding settings has the same effect as using an env var
+        utils,
+        "settings",
+        Settings(extra_datetime_input_formats=["MMM D YYYY"]),
+    )
+    result = runner.invoke(app, ["flip", "Jan 30 2018"])
+
+    assert "1517292000" in result.output, "Respects custom input formats."
 
 
 def test_repl_copy_hotword(runner):
@@ -74,29 +93,51 @@ def test_repl_copy_hotword(runner):
 
 
 def test_repl_reset(runner):
-    assert 0
+    result = runner.invoke(app, "repl", input=repl_input_factory("now", "now", "clear"))
+    last = last_frame(result)
+    assert NO_TIMES_YET_MESSAGE in last
+
+
+def test_repl_config(runner):
+    result = runner.invoke(app, "repl", input=repl_input_factory("config"))
+    last = last_frame(result)
+    assert all(name.upper() in last for name in Settings().dict().keys())
 
 
 def test_repl_config_and_back(runner):
-    assert 0
+    result = runner.invoke(app, "repl", input=repl_input_factory("config", "back"))
+    last = last_frame(result)
+    assert not any(name.upper() in last for name in Settings().dict().keys())
+
+
+def test_repl_help(runner):
+    result = runner.invoke(app, "repl", input=repl_input_factory("help"))
+    last = last_frame(result)
+    assert "help" in last
 
 
 def test_repl_help_and_back(runner):
-    assert 0
-
-
-def test_repl_show_index(runner):
-    assert 0
+    result = runner.invoke(app, "repl", input=repl_input_factory("help", "back"))
+    last = last_frame(result)
+    assert "help" not in last
 
 
 def test_repl_drop(runner):
-    assert 0
+    result = runner.invoke(
+        app,
+        "repl",
+        # first, drop the conversion for "2"
+        # then drop it for "poop"
+        input=repl_input_factory("yesterday", "poop", "0", "2", "drop", "drop 1"),
+    )
+    last = last_frame(result)
+    assert "poop" not in last
+    assert "2 =>" not in last
 
 
 def test_flip_with_output_format_env(runner, monkeypatch):
     monkeypatch.setattr(
         # overriding settings has the same effect as using an env var
-        # although in testing, pydantic does not seem to respect `monkeypatch.setenv`
         utils,
         "settings",
         Settings(custom_datetime_output_format="[Q]Q YYYY"),

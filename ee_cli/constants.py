@@ -34,8 +34,10 @@ To clear the list use: {typer.style(str(RESET_HOTWORDS), typer.colors.RED)}.
 
 To inspect your configuration (env vars) use: {typer.style(str(SHOW_CONFIG_HOTWORDS), typer.colors.RED)}.
 
-To see this help in the repl use: {typer.style(str(HELP_HOTWORDS), typer.colors.RED)}."""
+To see this help in the repl use: {typer.style(str(HELP_HOTWORDS), typer.colors.RED)}.
+ """  # the space is intentional
 
-CONFIGURATION_INFO = "\n".join(
-    f"{k.upper()}: {v or '<unset>'}" for k, v in settings.dict().items()
+CONFIGURATION_INFO = (
+    "\n".join(f"{k.upper()}: {v or '<unset>'}" for k, v in settings.dict().items())
+    + "\n "
 )
