@@ -60,6 +60,39 @@ def test_repl_conversions(runner):
     assert "Couldn't" not in last
 
 
+def test_repl_with_index_always_env(runner, monkeypatch):
+    assert 0
+
+
+def test_repl_with_extra_input_formats_env(runner, monkeypatch):
+    assert 0
+
+
+def test_repl_copy_hotword(runner):
+    runner.invoke(app, "repl", input=repl_input_factory("now", "copy"))
+    assert pyperclip.paste() == "790495200"
+
+
+def test_repl_reset(runner):
+    assert 0
+
+
+def test_repl_config_and_back(runner):
+    assert 0
+
+
+def test_repl_help_and_back(runner):
+    assert 0
+
+
+def test_repl_show_index(runner):
+    assert 0
+
+
+def test_repl_drop(runner):
+    assert 0
+
+
 def test_flip_with_output_format_env(runner, monkeypatch):
     monkeypatch.setattr(
         # overriding settings has the same effect as using an env var

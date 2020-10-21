@@ -11,6 +11,7 @@ TOGGLE_INDEX_HOTWORDS = {"index", "idx", "indexes", "i"}
 HELP_HOTWORDS = {"help", "h", "?"}
 SHOW_CONFIG_HOTWORDS = {"config", "settings", "variables", "vars", "env"}
 GO_BACK_HOTWORDS = {"back"}
+COPY_HOTWORDS = {"copy", "yy", "cp"}
 SPECIAL_KEYS = {}
 
 PENDULUM_SEMANTIC_ATTRS = {"tomorrow", "today", "yesterday"}

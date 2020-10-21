@@ -9,6 +9,7 @@ import typer
 from click import clear
 from ee_cli.constants import (
     CONFIGURATION_INFO,
+    COPY_HOTWORDS,
     DROP_HOTWORDS,
     EXIT_HOTWORDS,
     GO_BACK_HOTWORDS,
@@ -90,6 +91,13 @@ def go_back():
         string.latent = True
 
 
+def copy_to_clipboard():
+    """Copy all visible conversion results to the clipboard."""
+    values = "\n".join(map(flip_time_format, user_inputs._working_list))
+    pyperclip.copy(values)
+    quit()
+
+
 dispatch = make_dispatcher(
     [RESET_HOTWORDS, clear_list],
     [DROP_HOTWORDS, drop_list_item],
@@ -98,6 +106,7 @@ dispatch = make_dispatcher(
     [HELP_HOTWORDS, show_help],
     [SHOW_CONFIG_HOTWORDS, show_config],
     [GO_BACK_HOTWORDS, go_back],
+    [COPY_HOTWORDS, copy_to_clipboard],
     default=append_to_list,
 )
 
