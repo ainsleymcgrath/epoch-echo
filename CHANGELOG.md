@@ -3,17 +3,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Changelog](http://keepachangelog.com/).
 
-
-## Unreleased
+## 0.1.2
 
 ### New
-* Configuration withe environment variables. i.e. Default timezones, expected date formats.
 
-### Changes
-* More colors. Namely for parse failures
+- `copy` is available as a hotword in `repl` to send conversions to your clipboard.
+- `--copy` is available for `flip` to do the same thing.
+- `--plain` added to flip for simplified output.
 
 ### Fixes
-* Allow arrow keys for editing input in `repl` and moving through history.
+
+- Test coverage continues to improve.
 
 ## 0.1.1 - (2020-10-14)
 
