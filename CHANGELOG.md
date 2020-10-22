@@ -7,6 +7,12 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### Fixes
 
+- Version conflicts
+
+## 0.1.4
+
+### Fixes
+
 - Implements the changes from the yanked previous release.
 
 ## ~~0.1.3~~ (yanked)
