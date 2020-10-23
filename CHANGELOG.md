@@ -3,17 +3,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Changelog](http://keepachangelog.com/).
 
-## 0.1.4
+## 0.1.6
+- Implement functionality lost in yanked releases preceding.
 
-### Fixes
+## ~~0.1.5~~ (yanked)
 
-- Version conflicts
+### ~~Fixes~~
 
-## 0.1.4
+- ~~Version conflicts~~
 
-### Fixes
+## ~~0.1.4~~ (yanked)
 
-- Implements the changes from the yanked previous release.
+### ~~Fixes~~
+
+- ~~Implements the changes from the yanked previous release.~~
 
 ## ~~0.1.3~~ (yanked)
 
