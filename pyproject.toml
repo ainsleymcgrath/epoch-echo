@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ee-cli"
-version = "0.1.9"
+version = "0.1.11"
 description = "A salve for timesmiths"
 readme = "README.md"
 authors = ["Ainsley <mcgrath.ainsley@gmail.com>"]
@@ -21,14 +21,12 @@ pyperclip = "^1.8.0"
 pytest = "^5.2"
 black = "^20.8b1"
 ipython = "^7.16.1"
-pip-tools = "^5.3.1"
 flake8 = "^3.8.4"
 pylint = "^2.6.0"
 isort = "^5.6.1"
 pdbpp = "^0.10.2"
 pre-commit = "^2.7.1"
 typer-cli = "^0.0.11"
-changelog-cli = "^0.7.1"
 flake8-docstrings = "^1.5.0"
 
 [build-system]
