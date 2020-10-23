@@ -6,8 +6,8 @@ import pytest
 from click.testing import Result
 from ee_cli import ui, utils
 from ee_cli.constants import COULD_NOT_PARSE_ERROR_MESSAGE, NO_TIMES_YET_MESSAGE
+from ee_cli.main import app
 from ee_cli.settings import Settings
-from main import app
 from typer.testing import CliRunner
 
 
