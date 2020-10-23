@@ -1,5 +1,6 @@
 """Some things never change."""
 import typer
+
 from ee_cli.settings import Settings
 
 settings = Settings()

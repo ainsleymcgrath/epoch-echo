@@ -7,6 +7,7 @@ from typing import List
 import pyperclip
 import typer
 from click import clear
+
 from ee_cli.constants import (
     CONFIGURATION_INFO,
     COPY_HOTWORDS,

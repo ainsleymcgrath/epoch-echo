@@ -2,6 +2,7 @@
 from typing import Union
 
 import pendulum
+
 from ee_cli.constants import COULD_NOT_PARSE_ERROR_MESSAGE, PENDULUM_SEMANTIC_ATTRS
 from ee_cli.settings import Settings
 

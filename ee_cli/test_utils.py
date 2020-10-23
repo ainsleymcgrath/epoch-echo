@@ -1,4 +1,5 @@
 import pytest
+
 from ee_cli import utils
 from ee_cli.constants import COULD_NOT_PARSE_ERROR_MESSAGE
 from ee_cli.settings import Settings

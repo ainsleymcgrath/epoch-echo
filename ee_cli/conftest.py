@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 import pendulum
 import pytest
+
 from ee_cli.settings import Settings
 
 

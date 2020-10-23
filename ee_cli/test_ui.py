@@ -4,6 +4,7 @@
 # should show help when asked
 
 import pytest
+
 from ee_cli.ui import OptionallyLatentString, TransformedUserInputStore, make_dispatcher
 from ee_cli.utils import flip_time_format
 
