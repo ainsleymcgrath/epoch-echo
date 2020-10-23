@@ -32,5 +32,13 @@ changelog-cli = "^0.7.1"
 flake8-docstrings = "^1.5.0"
 
 [build-system]
-requires = ["poetry_core>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["flit_core >=2,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "ee_cli"
+author = "Ainsley McGrath"
+author-email = "mcgrath.ainsley@gmail.com"
+
+[tool.flit.scripts]
+ee = "ee_cli.main:app"
