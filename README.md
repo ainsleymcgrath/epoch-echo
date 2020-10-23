@@ -19,7 +19,8 @@ Copypasta your machine-flavored datetimes from the db or whatever into the `ee r
 Currently available on PyPi Test only.
 
 ```shell
-pip install -i https://test.pypi.org/simple/ ee-cli
+# use 'extra' instead of regular index url bc some deps are not on pypi test
+pip install --extra-index-url https://test.pypi.org/simple/ ee-cli
 ```
 
 The executable is `ee`
