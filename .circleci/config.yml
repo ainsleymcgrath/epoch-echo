@@ -44,11 +44,12 @@ workflows:
       equal: [ pypi-test, << pipeline.git.branch >> ]
     jobs:
       - get_poetry
+      - test:
+          requires:
+            - get_poetry
       - publish_test_pypi:
           requires:
             - get_poetry
+            - test
           context:
             - pypi
-          filters:
-            branches:
-              only: pypi-test
