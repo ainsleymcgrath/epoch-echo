@@ -1,9 +1,10 @@
 [tool.poetry]
 name = "ee-cli"
-version = "0.1.7"
+version = "0.1.8"
 description = "A salve for timesmiths"
 readme = "README.md"
 authors = ["Ainsley <mcgrath.ainsley@gmail.com>"]
+exclude = ["**/test_*.py", "**/conftest.py"]
 
 [tool.poetry.scripts]
 ee = "ee_cli.main:app"
@@ -30,5 +31,5 @@ changelog-cli = "^0.7.1"
 flake8-docstrings = "^1.5.0"
 
 [build-system]
-requires = ["poetry>=0.12"]
+requires = ["poetry_core>=0.12"]
 build-backend = "poetry.masonry.api"
