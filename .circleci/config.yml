@@ -37,7 +37,7 @@ jobs:
           at: .
       - run: poetry config repositories.pypi "https://pypi.org/legacy/"
       - run: poetry config pypi-token.pypi "${PYPI_TOKEN}"
-      - run: poetry publish --build -r test-pypi
+      - run: poetry publish --build
 workflows:
   build_test:
     # dev and master run tests themselves
