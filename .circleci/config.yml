@@ -40,6 +40,13 @@ jobs:
       - run: poetry publish --build -r test-pypi
 workflows:
   build_test:
+    # dev and master run tests themselves
+    when:
+      and:
+        - not:
+            equal: [ master, << pipeline.git.branch >> ]
+        - not:
+            equal: [ dev, << pipeline.git.branch >> ]
     jobs:
       - get_poetry
       - test:
