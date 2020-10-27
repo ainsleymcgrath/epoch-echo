@@ -22,7 +22,12 @@ repos:
   - repo: local
     hooks:
       - id: versioncheck
-        name: versioncheck
-        entry: python -m versioncheck
+        name: Check Versions Match
+        entry: python -m scripts.versioncheck
         language: system
         files: (ee_cli/__init__\.py|pyproject.toml)
+      - id: changelog-czar
+        name: Changelog must be maintained
+        entry: sh scripts/changelog-did-change.sh
+        language: system
+        stages: [push]
