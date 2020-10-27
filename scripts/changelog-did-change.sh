@@ -2,7 +2,7 @@
 branch=$(git branch --show-current)
 
 if [[ $branch == 'master' || $branch == 'dev' ]]; then
-  git diff --name-only \
+  git diff origin/$branch --name-only \
     | grep 'CHANGELOG' \
     | wc -l \
     | awk '{
