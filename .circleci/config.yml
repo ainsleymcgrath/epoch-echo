@@ -28,8 +28,8 @@ jobs:
       - attach_workspace:
           at: .
       - run: poetry config repositories.test-pypi "https://test.pypi.org/legacy/"
-      # there's a dupe of this env var
       - run: poetry config pypi-token.test-pypi "${PYPI_TEST_TOKEN}"
+      - run: poetry publish --build -r test-pypi
   publish_pypi:
     executor: python-docker
     steps:
@@ -37,6 +37,7 @@ jobs:
           at: .
       - run: poetry config repositories.pypi "https://pypi.org/legacy/"
       - run: poetry config pypi-token.pypi "${PYPI_TOKEN}"
+      - run: poetry publish --build -r test-pypi
 workflows:
   build_test:
     jobs:
