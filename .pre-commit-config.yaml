@@ -19,3 +19,10 @@ repos:
     rev: 5.6.4
     hooks:
       - id: isort
+  - repo: local
+    hooks:
+      - id: versioncheck
+        name: versioncheck
+        entry: python -m versioncheck
+        language: system
+        files: (ee_cli/__init__\.py|pyproject.toml)
