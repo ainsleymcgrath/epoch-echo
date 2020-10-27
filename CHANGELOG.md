@@ -1,3 +1,9 @@
+## 0.1.14
+
+### New
+
+-  `ee --version` is a thing now.
+
 ## 0.1.13
 
 ### Changes

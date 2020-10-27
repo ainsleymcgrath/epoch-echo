@@ -8,6 +8,7 @@ import pyperclip
 import typer
 from click import clear
 
+from ee_cli import __version__
 from ee_cli.constants import (
     CONFIGURATION_INFO,
     COPY_HOTWORDS,
@@ -165,3 +166,19 @@ def flip(dates: List[str], copy: bool = False, plain: bool = False):
         else TransformedUserInputStore(*dates)  # __str__ on this makes a pretty list
     )
     typer.echo(output)
+
+
+def _version_callback(value: bool):
+    if value:
+        typer.echo(__version__)
+        raise typer.Exit()
+
+
+# pylint: disable=unused-argument
+@app.callback()
+def _(
+    version: bool = typer.Option(
+        None, "--version", "-v", callback=_version_callback, is_eager=True
+    )
+):
+    """Print the version and exit.."""
