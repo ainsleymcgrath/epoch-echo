@@ -41,7 +41,7 @@ jobs:
           at: .
       - run: poetry config repositories.pypi "https://pypi.org/legacy/"
       # there's a dupe of this env var
-      - run: poetry config pypi-token.test-pypi "${PYPI_TOKEN}"
+      - run: poetry config pypi-token.pypi "${PYPI_TOKEN}"
       - when:
           condition: << pipeline.git.tag >>
           steps:
@@ -55,13 +55,27 @@ workflows:
             - get_poetry
   build_publish_test_pypi:
     when:
-      equal: [ pypi-test, << pipeline.git.branch >> ]
+      equal: [ dev, << pipeline.git.branch >> ]
     jobs:
       - get_poetry
       - test:
           requires:
             - get_poetry
       - publish_test_pypi:
+          requires:
+            - get_poetry
+            - test
+          context:
+            - pypi
+  build_publish_pypi:
+    when:
+      equal: [ master, << pipeline.git.branch >> ]
+    jobs:
+      - get_poetry
+      - test:
+          requires:
+            - get_poetry
+      - publish_pypi:
           requires:
             - get_poetry
             - test
