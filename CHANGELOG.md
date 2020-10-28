@@ -1,3 +1,9 @@
+## 1.0.0
+
+### Breaks
+
+- The old interface. There are no more subcommands. `ee` now has the behavior formerly known as `ee flip` and `ee -R` now gives you whwat was formerly `ee repl`
+
 ## 0.1.14
 
 ### New
