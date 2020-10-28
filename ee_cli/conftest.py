@@ -32,4 +32,5 @@ def pyperclip_patch(monkeypatch):
     stub = ClipboardStub()  # share the instance across patches
 
     monkeypatch.setattr("ee_cli.main.pyperclip", stub)
+    monkeypatch.setattr("ee_cli.content.pyperclip", stub)
     monkeypatch.setattr("ee_cli.test_ee.pyperclip", stub)

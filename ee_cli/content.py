@@ -22,11 +22,10 @@ from ee_cli.constants import (
     SHOW_CONFIG_HOTWORDS,
     TOGGLE_INDEX_HOTWORDS,
 )
-from ee_cli.ui import OptionallyLatentString, TransformedUserInputStore, make_dispatcher
-from ee_cli.utils import flip_time_format
+from ee_cli.ui import EchoList, OptionallyLatentString, make_dispatcher
 
 # UI state data is stored in these variables
-user_inputs = TransformedUserInputStore()
+user_inputs = EchoList()
 help_ = OptionallyLatentString(HELP_HEADER + indent(HOTWORDS_HELP, "   "))
 config = OptionallyLatentString(HELP_HEADER + indent(CONFIGURATION_INFO, "   "))
 
@@ -43,17 +42,12 @@ def clear_list():
 
 
 def drop_list_item(*indexes):
-    """Drop the value at any of the specifed indexes.
-    Drop [-1] if no index provided."""
+    """Drop the value at the specifed indexes."""
     if not indexes:
         user_inputs.pop()
-        return
 
-    user_inputs._working_list = [
-        item
-        for idx, item in enumerate(user_inputs._working_list)
-        if str(idx) not in indexes
-    ]
+    for index in indexes:
+        user_inputs.pop(index)
 
 
 def append_to_list(item):
@@ -91,8 +85,7 @@ def go_back():
 
 def copy_to_clipboard():
     """Copy all visible conversion results to the clipboard."""
-    values = "\n".join(map(flip_time_format, user_inputs._working_list))
-    pyperclip.copy(values)
+    pyperclip.copy(user_inputs.plain_str())
     typer.echo(
         f"Converted date{'s' if len(user_inputs) > 1 else ''} copied to clipboard."
     )
@@ -113,5 +106,5 @@ dispatch: Callable[[str], None] = make_dispatcher(
 
 
 def visible_content():
-    """Return the first string-ish object that is not falsey at the moment."""
+    """Return the first string-ish state object that is not falsey at the moment."""
     return next(x for x in [help_, config, user_inputs, NO_TIMES_YET_MESSAGE] if len(x))

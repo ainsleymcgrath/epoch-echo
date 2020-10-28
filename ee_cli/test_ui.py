@@ -5,7 +5,7 @@
 
 import pytest
 
-from ee_cli.ui import OptionallyLatentString, TransformedUserInputStore, make_dispatcher
+from ee_cli.ui import EchoList, OptionallyLatentString, make_dispatcher
 from ee_cli.utils import flip_time_format
 
 
@@ -71,11 +71,7 @@ def test_latent_string_latent_by_default(latent_str, expected):
 
 @pytest.fixture
 def ui_store():
-    return TransformedUserInputStore(1, 2, 3)
-
-
-def test_original_list_preserved_in_store(ui_store):
-    assert ui_store._original_list == ui_store._working_list
+    return EchoList(1, 2, 3)
 
 
 def test_delete_items_from_store(ui_store):
@@ -86,17 +82,13 @@ def test_delete_items_from_store(ui_store):
     assert (
         deleted_item not in ui_store
     ), "Deleted items appear not to be in the ui_store"
-    assert (
-        deleted_item in ui_store._original_list
-    ), "Deleted items persist in original list"
-
-
-def test_add_items_to_store(ui_store):
-    ui_store.append(4)
-    assert ui_store._working_list[-1] == ui_store._original_list[-1]
+    try:
+        del ui_store[200]
+    except IndexError:
+        pytest.fail("EchoList doesn't care about its indexes.")
 
 
 def test_getitem_does_format(ui_store):
-    expected = flip_time_format(ui_store._original_list[0])
+    expected = flip_time_format(ui_store._items[0])
     actual = ui_store[0]
     assert expected in actual, "Formatted string included in getitem"

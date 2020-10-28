@@ -10,8 +10,7 @@ from click import clear
 from ee_cli import __version__
 from ee_cli.constants import HOTWORDS_HELP
 from ee_cli.content import dispatch, visible_content
-from ee_cli.ui import TransformedUserInputStore
-from ee_cli.utils import flip_time_format
+from ee_cli.ui import EchoList
 
 app = typer.Typer(name="ee", help="A salve for timesmiths 🧴🕰️")
 
@@ -49,20 +48,15 @@ def repl(tz: str = "America/Chicago"):
 def flip(dates: List[str], copy: bool = False, plain: bool = False):
     """`repl` without the prompt.
     Takes a list of dates/timestamps (mixing them works fine)"""
+    output = EchoList(*dates)
     if copy:
-        text = "\n".join(map(flip_time_format, dates))
-        pyperclip.copy(text)
+        pyperclip.copy(output.plain_str())
         typer.echo(
             f"Converted date{'s' if len(dates) > 1 else ''} copied to clipboard."
         )
         return
 
-    output = (
-        "\n".join(map(flip_time_format, dates))
-        if plain
-        else TransformedUserInputStore(*dates)  # __str__ on this makes a pretty list
-    )
-    typer.echo(output)
+    typer.echo(output.plain_str() if plain else output)
 
 
 def _version_callback(value: bool):
