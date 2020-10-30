@@ -16,26 +16,25 @@ Copypasta your machine-flavored datetimes from the db or whatever into the `ee r
 
 ## Installation
 
-Currently available on PyPi Test only.
+This is a Python project, so you install it from pip.
 
 ```shell
-# use 'extra' instead of regular index url bc some deps are not on pypi test
-pip install --extra-index-url https://test.pypi.org/simple/ ee-cli
+pip install ee-cli
 ```
 
 The executable is `ee`
 
 ```shell
-ee # display help and list commands
+ee --help # display help and list commands
 ```
 
 # Usage
 
-Interactive (`ee repl`):
+Interactive (`ee -R`):
 
 ![](./repl.gif)
 
-Non-interactive (`ee flip`):
+Non-interactive (`ee`):
 
 ![](./flip.gif)
 

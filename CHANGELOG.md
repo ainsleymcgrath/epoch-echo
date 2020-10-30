@@ -2,7 +2,11 @@
 
 ### Breaks
 
-- The old interface. There are no more subcommands. `ee` now has the behavior formerly known as `ee flip` and `ee -R` now gives you whwat was formerly `ee repl`
+- The old API. There are no more subcommands. `ee` now has the behavior formerly known as `ee flip` and `ee -R` now gives you what was formerly `ee repl`
+
+### Fixes
+
+- `--repl` can't be called with other args/options
 
 ## 0.1.14
 
