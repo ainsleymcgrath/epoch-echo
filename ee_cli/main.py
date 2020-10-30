@@ -36,17 +36,35 @@ def _repl():
         clear()
 
 
-def _version_callback(value: bool):
+def _version_callback(value: bool, ctx: typer.Context):
     """For --version."""
     if value:
+        if len(ctx.args) or any(v for v in ctx.params.values()):
+            raise typer.Abort("--value must be called alone.")
+
         typer.echo(__version__)
         raise typer.Exit()
+
+    return value
+
+
+def _exclusivity_check(ctx: typer.Context):
+    """Make sure arguments don't get called in combination that don't make sense.
+    It's not `app.callback` decorated b/c that's only for apps w multiple commands"""
+    if ctx.params["repl"] is True:
+        ctx.params.pop("repl")
+        # everything gotta be falsey
+        if any(v for v in ctx.params.values()) or len(ctx.args):
+            raise typer.Abort("--repl must be called alone.")
+
+    return ctx
 
 
 @app.command(help=__doc__)
 def main(
+    ctx: typer.Context,
     dates: List[str] = typer.Argument(
-        ...,
+        None,
         help="Dates/datetimes separated by spaces.\n"
         "Can be in the style of an epoch timestamp (milliseconds will be ignored) or\n"
         "in any of the formats specified in EXTRA_DATETIME_INPUT_FORMATS",
@@ -82,13 +100,14 @@ def main(
         "--version",
         "-v",
         callback=_version_callback,
-        is_eager=True,
         help="Print the version and exit",
     ),
 ):
     """Acts as the entrypoint for `ee`."""
+    _exclusivity_check(ctx)
+
     if repl:
-        repl()
+        _repl()
         return
 
     output = EchoList(*dates)

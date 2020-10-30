@@ -39,13 +39,13 @@ def runner():
 
 
 def test_repl_smoke(runner):
-    result = runner.invoke(app, "repl", input=repl_input_factory())
+    result = runner.invoke(app, "--repl", input=repl_input_factory())
     assert result.exit_code == 0, "App starts and exits on exit hotword"
 
 
 def test_repl_failed_conversion(runner):
     invalid_date = "hahahaahaha"
-    result = runner.invoke(app, "repl", input=repl_input_factory(invalid_date))
+    result = runner.invoke(app, "--repl", input=repl_input_factory(invalid_date))
     last = last_frame(result)
     assert (
         COULD_NOT_PARSE_ERROR_MESSAGE.format(date=invalid_date) in last
@@ -54,7 +54,7 @@ def test_repl_failed_conversion(runner):
 
 def test_repl_conversions(runner):
     result = runner.invoke(
-        app, "repl", input=repl_input_factory("now", "tomorrow", "today")
+        app, "--repl", input=repl_input_factory("now", "tomorrow", "today")
     )
     last = last_frame(result)
     assert all(s in last for s in ["now", "tomorrow", "today"]), "No inputs get lost"
@@ -69,7 +69,7 @@ def test_repl_with_index_always_env(runner, monkeypatch):
         Settings(show_indexes_always=True),
     )
 
-    result = runner.invoke(app, "repl", input=repl_input_factory("i", "now"))
+    result = runner.invoke(app, "--repl", input=repl_input_factory("i", "now"))
     last = last_frame(result)
     # there are pretty brackets and whitespace around the conversion
     _, _, conversion, _ = last.split("\n")
@@ -83,42 +83,44 @@ def test_repl_with_extra_input_formats_env(runner, monkeypatch):
         "settings",
         Settings(extra_datetime_input_formats=["MMM D YYYY"]),
     )
-    result = runner.invoke(app, ["flip", "Jan 30 2018"])
+    result = runner.invoke(app, ["Jan 30 2018"])
 
     assert "1517292000" in result.output, "Respects custom input formats."
 
 
 def test_repl_copy_hotword(runner):
-    runner.invoke(app, "repl", input=repl_input_factory("now", "copy"))
+    runner.invoke(app, "--repl", input=repl_input_factory("now", "copy"))
     assert pyperclip.paste() == "790495200"
 
 
 def test_repl_reset(runner):
-    result = runner.invoke(app, "repl", input=repl_input_factory("now", "now", "clear"))
+    result = runner.invoke(
+        app, "--repl", input=repl_input_factory("now", "now", "clear")
+    )
     last = last_frame(result)
     assert NO_TIMES_YET_MESSAGE in last
 
 
 def test_repl_config(runner):
-    result = runner.invoke(app, "repl", input=repl_input_factory("config"))
+    result = runner.invoke(app, "--repl", input=repl_input_factory("config"))
     last = last_frame(result)
     assert all(name.upper() in last for name in Settings().dict().keys())
 
 
 def test_repl_config_and_back(runner):
-    result = runner.invoke(app, "repl", input=repl_input_factory("config", "back"))
+    result = runner.invoke(app, "--repl", input=repl_input_factory("config", "back"))
     last = last_frame(result)
     assert not any(name.upper() in last for name in Settings().dict().keys())
 
 
 def test_repl_help(runner):
-    result = runner.invoke(app, "repl", input=repl_input_factory("help"))
+    result = runner.invoke(app, "--repl", input=repl_input_factory("help"))
     last = last_frame(result)
     assert "help" in last
 
 
 def test_repl_help_and_back(runner):
-    result = runner.invoke(app, "repl", input=repl_input_factory("help", "back"))
+    result = runner.invoke(app, "--repl", input=repl_input_factory("help", "back"))
     last = last_frame(result)
     assert "help" not in last
 
@@ -126,7 +128,7 @@ def test_repl_help_and_back(runner):
 def test_repl_drop(runner):
     result = runner.invoke(
         app,
-        "repl",
+        "--repl",
         # first, drop the conversion for "2"
         # then drop it for "poop"
         input=repl_input_factory("yesterday", "poop", "0", "2", "drop", "drop 1"),
@@ -143,7 +145,7 @@ def test_flip_with_output_format_env(runner, monkeypatch):
         "settings",
         Settings(custom_datetime_output_format="[Q]Q YYYY"),
     )
-    result = runner.invoke(app, ["flip", "0"])
+    result = runner.invoke(app, ["0"])
 
     assert (
         "Q4 1969" in result.output
@@ -152,12 +154,25 @@ def test_flip_with_output_format_env(runner, monkeypatch):
 
 def test_flip_with_copy_flag(runner):
     # no result needed bc testing against clipboard
-    runner.invoke(app, ["flip", "2020-12-12", "--copy"])
+    runner.invoke(app, ["2020-12-12", "--copy"])
     assert pyperclip.paste() == "1607752800", "Converted date is sent to clipboard"
 
 
 def test_flip_plain(runner):
-    result = runner.invoke(app, ["flip", "2020-12-12", "--plain"])
+    result = runner.invoke(app, ["2020-12-12", "--plain"])
     assert (
         "=>" not in result.output and " " not in result.output
     ), "Characters that show up in formatting are not shown"
+
+
+@pytest.mark.parametrize(
+    "args, exit_code, message",
+    [
+        ("--plain", 0, "--plain can be used alone."),
+        ("--repl 1 2 3", 1, "--repl can't be used with args passed"),
+        ("--repl --copy --plain", 1, "--repl can't be used with other options"),
+    ],
+)
+def test_arg_exclusivity(args, exit_code, message, runner):
+    result = runner.invoke(app, args.split(" "))
+    assert result.exit_code == exit_code, message
