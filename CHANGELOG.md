@@ -1,3 +1,13 @@
+## 1.0.1
+
+### Fixes
+
+- `--version` was referred to as `--value` in docs--no longer.
+
+### Changes
+
+- calling `ee` with no arguments or options displays help
+
 ## 1.0.0
 
 ### Breaks
