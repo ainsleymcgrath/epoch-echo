@@ -40,7 +40,7 @@ def _version_callback(value: bool, ctx: typer.Context):
     """For --version."""
     if value:
         if len(ctx.args) or any(v for v in ctx.params.values()):
-            raise typer.Abort("--value must be called alone.")
+            raise typer.Abort("--version must be called alone.")
 
         typer.echo(__version__)
         raise typer.Exit()
@@ -60,7 +60,7 @@ def _exclusivity_check(ctx: typer.Context):
     return ctx
 
 
-@app.command(help=__doc__)
+@app.command(help=__doc__, no_args_is_help=True)
 def main(
     ctx: typer.Context,
     dates: List[str] = typer.Argument(
