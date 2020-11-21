@@ -2,17 +2,21 @@
 
 A minimal command line alternative to tools like [this](https://www.epochconverter.com).
 
+Copypasta your machine-flavored datetimes from the db or whatever into the `ee repl` interface, and ahhhh 😌 a nice human date right there for you in 0 clicks 🌚. Pass a whole long list of some ridiculous mixture of epoch dates and readable datetimes and witness 🙀 the grand switcharoo 🎠
+
 Built with ✨and [typer](https://github.com/tiangolo/typer).
 
 ## About
 
-Born from the grumblings of a crunchy shell-dweller, `ee-cli` is designed to fit nicely in a terminal-heavy workflow with tools like [tmux](https://github.com/tmux/tmux/wiki), [hub](https://github.com/github/hub), [fzf](https://github.com/junegunn/fzf), etc. (This and all my cli tools are inspired by these and others.)
+Born from the grumblings of a crunchy shell-dweller, `ee-cli` is designed to fit nicely in a terminal-heavy workflow with tools like [tmux](https://github.com/tmux/tmux/wiki), [hub](https://github.com/github/hub), [fzf](https://github.com/junegunn/fzf), etc. Those tools and their peers inspired `ee` greatly.
 
 `ee` stands for "epoch echo" because that's sort of what the tool does.
 
-The 2 commands both take inputs as either epoch timestamps or datetimes and print them back as the opposite. `ee` uses [pendulum](https://pendulum.eustace.io) for these conversions. By default, `ee` supports the [same datetime formats](https://pendulum.eustace.io/docs/#rfc-3339) as `pendulum.parse`.
+`ee` takes any arbitrary combination of  epoch timestamps, datetimes, times, dates, etc, and prints them back as the opposite. `ee` uses [pendulum](https://pendulum.eustace.io) for these conversions.
 
-Copypasta your machine-flavored datetimes from the db or whatever into the `ee repl` interface, and ahhhh 😌 a nice human date right there for you in 0 clicks 🌚. Pass a whole long list of some ridiculous mixture of epoch dates and readable datetimes to `ee flip` and witness 🙀 the grand switcharoo 🎠
+By default, `ee` supports input from the [same datetime formats](https://pendulum.eustace.io/docs/#rfc-3339) as `pendulum.parse`, plus the conveniences of "now," "tomorrow," "today," and "yeterday."
+
+More input formats can be used by setting the `EXTRA_DATETIME_INPUT_FORMATS` environment variable to a json array of [these tokens](https://pendulum.eustace.io/docs/#tokens) in pendulum
 
 ## Installation
 
@@ -25,19 +29,19 @@ pip install ee-cli
 The executable is `ee`
 
 ```shell
-ee --help # display help and list commands
+ee  # display help and list commands
 ```
 
 # Usage
 
-Interactive (`ee -R`):
+Basic: Convert a list of datetimes, output it to the clipboard.
 
-![](./repl.gif)
+![](./ee.svg)
 
-Non-interactive (`ee`):
+Interactive: Use the repl to curate a list of converted datetimes, view help, send to clipboard, and more!
 
-![](./flip.gif)
+![](./repl.svg)
 
-Gifs courtesy of [terminalizer](https://github.com/faressoft/terminalizer).
+Images generated with [termtosvg](https://github.com/nbedos/termtosvg).
 
-See [USAGE.md](./USAGE.md) for more
+See [USAGE.md](./USAGE.md) for more.
