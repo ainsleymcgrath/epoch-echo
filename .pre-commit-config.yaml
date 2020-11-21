@@ -31,3 +31,10 @@ repos:
         entry: sh scripts/changelog-did-change.sh
         language: system
         stages: [push]
+  - repo: local
+    hooks:
+      - id: mypy
+        name: Type Checks
+        language: python
+        entry: mypy
+        types: [python]
