@@ -37,6 +37,7 @@ To inspect your configuration (env vars) use: `{'config', 'settings', 'env'}`.
 
 To see this help in the repl use: `{'help', 'h', '?'}`.
 
+* `--show-config`: Show current values for `ee-cli` environment variables (including unset)
 * `-v, --version`: Print the version and exit
 * `--install-completion`: Install completion for the current shell.
 * `--show-completion`: Show completion for the current shell, to copy it or customize the installation.

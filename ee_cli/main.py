@@ -8,7 +8,7 @@ import typer
 from click import clear
 
 from ee_cli import __doc__, __version__
-from ee_cli.constants import HOTWORDS_HELP
+from ee_cli.constants import CONFIGURATION_INFO, HOTWORDS_HELP
 from ee_cli.content import dispatch, visible_content
 from ee_cli.ui import EchoList
 
@@ -95,6 +95,13 @@ def main(
         "Can be controlled with various redundant hotwords:\n"
         f"{HOTWORDS_HELP}",
     ),
+    config: bool = typer.Option(
+        False,
+        "--show-config",
+        is_flag=True,
+        show_default=False,
+        help="Show current values for `ee-cli` environment variables (including unset)",
+    ),
     version: bool = typer.Option(
         None,
         "--version",
@@ -108,6 +115,10 @@ def main(
 
     if repl:
         _repl()
+        return
+
+    if config:
+        typer.echo(CONFIGURATION_INFO)
         return
 
     output = EchoList(*dates)
