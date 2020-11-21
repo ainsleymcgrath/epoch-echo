@@ -33,7 +33,7 @@ This will exit the repl.
 
 To clear the list use: `{'restart', 'c', 'clear'}`.
 
-To inspect your configuration (env vars) use: `{'config', 'settings', 'variables', 'vars', 'env'}`.
+To inspect your configuration (env vars) use: `{'config', 'settings', 'env'}`.
 
 To see this help in the repl use: `{'help', 'h', '?'}`.
 
