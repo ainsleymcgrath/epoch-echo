@@ -1,7 +1,7 @@
 """UI state management."""
 from collections.abc import MutableSequence, Sized
 from textwrap import indent
-from typing import Callable, List, Tuple
+from typing import Any, Callable, Set, Tuple
 
 from ee_cli.settings import Settings
 from ee_cli.utils import flip_time_format
@@ -14,18 +14,16 @@ class EchoList(MutableSequence):
     When accessing an item via index or when iterating on an instance, the members are
     formatted with `flip_time_format` when returned."""
 
-    def __init__(self, *items):
-        """Make 2 identical lists. Original is for history, working is for display."""
+    def __init__(self, *items: str):
         self._items = list(items)
         self.show_index: bool = settings.show_indexes_always
 
     def __str__(self):
         """Arrange the items in a list and indent to look nice in the prompt."""
-        linewise_list = "\n".join(self[i] for i in range(len(self)))
+        linewise_list = "\n".join(self)
         return indent(f"\n{linewise_list}\n ", "   ")
 
     def __getitem__(self, idx):
-        # noqa: D208, D400
         """Return the formatted self._list element at the given index."""
         original = self._items[int(idx)]
         flipped = flip_time_format(original)
@@ -37,33 +35,35 @@ class EchoList(MutableSequence):
         self._items[int(idx)] = value
 
     def __delitem__(self, idx):
-        """Delete an item from the self.working_list only.
-        self._full_list isn't touched so we can preserve input history."""
+        """Delete an item, but be apathetic about nonexistent indices.
+        Since this is used only by main._repl, idx is a string."""
         try:
             del self._items[int(idx)]
         except IndexError:
             pass
 
     def __iter__(self):
-        """Give back all the elements of self.working_list, formatted.
-        __getitem__ already knows how to format list items."""
+        """Give back all the elements, formatted.
+        __getitem__ knows how to format list items, so use indexes."""
         return (self[i] for i, _ in enumerate(self._items))
 
     def __len__(self):
         """Do it the regular way."""
         return len(self._items)
 
-    def insert(self, idx, value):
+    def insert(self, idx: int, value):
         """Set the original and working list so the former can be used for history."""
-        # no str() bc caller uses this like a normal list
         self._items.insert(idx, value)
 
     def plain_str(self) -> str:
-        """Provide transformed values as a printable list without formatting."""
-        return "\n".join(map(flip_time_format, self._items))
+        """Provide transformed values as a printable list without formatting.
+        Use ._items since iterating on self gives formatted strings."""
+        return "\n".join(flip_time_format(s) for s in self._items)
 
 
-def make_dispatcher(*args: Tuple[List[str], Callable], default=None):
+def make_dispatcher(
+    *args: Tuple[Set[str], Callable], default=None
+) -> Callable[[str], None]:
     """Return a function that takes a string. Put *args in a closure for it to use.
 
     Any member of a list of strings in any of *args will trigger the invocation of the
@@ -71,7 +71,7 @@ def make_dispatcher(*args: Tuple[List[str], Callable], default=None):
     input passed to the dispatcher that is not in the closure, unaltered."""
     switch = {action: fn for actions, fn in args for action in actions}
 
-    def _dispatcher(action: str):
+    def _dispatcher(action: str) -> None:
         """Affect external state, presumably. Do what you want I guess.
         The first word of the string is potentially an action named in one of the
         lists passed into the closure. The remaining words are passed to the action
@@ -99,14 +99,14 @@ class OptionallyLatentString(Sized):
         self._content = _content
         self.latent = latent
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._content if not self.latent else ""
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str(self)
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         return str(self) == str(other)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(str(self))

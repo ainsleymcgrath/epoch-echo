@@ -34,18 +34,22 @@ def flip_time_format(date: str, tz: str = settings.default_timezone) -> str:
             value: pendulum.DateTime = getattr(pendulum, date)(tz=tz)
             return str(_epoch_int_no_millis(value.timestamp()))
         try:
-            maybe_epoch = try_parse_formats(
+            epoch_from_custom_format = try_parse_formats(
                 date, *settings.extra_datetime_input_formats
             )
-            return (
-                maybe_epoch
-                or str(pendulum.parse(date, tz=tz).timestamp()).split(".")[0]
-            )
+            if epoch_from_custom_format is not None:
+                return epoch_from_custom_format
+            # if `exact=True` was passed to .parse, could get types w/o .timestamp()
+            # (such as Duration) but mypy can't deal :(
+            regular_epoch = pendulum.parse(date, tz=tz).timestamp()  # type: ignore
+            return str(_epoch_int_no_millis(regular_epoch))
         except pendulum.parsing.exceptions.ParserError:
             return COULD_NOT_PARSE_ERROR_MESSAGE.format(date=date)
 
 
-def try_parse_formats(date: str, *formats: str, tz: str = settings.default_timezone):
+def try_parse_formats(
+    date: str, *formats: str, tz: str = settings.default_timezone
+) -> Union[str, None]:
     """Try calling pendulum.parse with each of the supplied formats."""
     for format in formats:
         try:
@@ -53,3 +57,4 @@ def try_parse_formats(date: str, *formats: str, tz: str = settings.default_timez
             return str(_epoch_int_no_millis(timestamp))
         except ValueError:
             continue
+    return None

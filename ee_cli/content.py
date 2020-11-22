@@ -93,14 +93,14 @@ def copy_to_clipboard():
 
 
 dispatch: Callable[[str], None] = make_dispatcher(
-    [RESET_HOTWORDS, clear_list],
-    [DROP_HOTWORDS, drop_list_item],
-    [TOGGLE_INDEX_HOTWORDS, toggle_index],
-    [EXIT_HOTWORDS, quit],
-    [HELP_HOTWORDS, show_help],
-    [SHOW_CONFIG_HOTWORDS, show_config],
-    [GO_BACK_HOTWORDS, go_back],
-    [COPY_HOTWORDS, copy_to_clipboard],
+    (RESET_HOTWORDS, clear_list),
+    (DROP_HOTWORDS, drop_list_item),
+    (TOGGLE_INDEX_HOTWORDS, toggle_index),
+    (EXIT_HOTWORDS, quit),
+    (HELP_HOTWORDS, show_help),
+    (SHOW_CONFIG_HOTWORDS, show_config),
+    (GO_BACK_HOTWORDS, go_back),
+    (COPY_HOTWORDS, copy_to_clipboard),
     default=append_to_list,
 )
 
