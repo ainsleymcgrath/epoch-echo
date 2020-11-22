@@ -1,3 +1,12 @@
+## 1.1.0
+
+:tada: Mostly code cleanup, a good deal of refactoring.
+
+### Changes
+
+- Dependency upgrades
+- Mypy is here--types are hinted.
+
 ## 1.0.2
 
 ### New
