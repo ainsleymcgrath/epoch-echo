@@ -1,3 +1,15 @@
+## 1.0.2
+
+### New
+
+- The `--show-config` flag will do just that!
+
+### Changes
+
+- The gifs have been replaced with cleaner SVGs
+- Removed excess 'config' hotwords.
+- Usage docs updated
+
 ## 1.0.1
 
 ### Fixes
