@@ -2,7 +2,7 @@
 
 A minimal command line alternative to tools like [this](https://www.epochconverter.com).
 
-Copypasta your machine-flavored datetimes from the db or whatever into the `ee repl` interface, and ahhhh 😌 a nice human date right there for you in 0 clicks 🌚. Pass a whole long list of some ridiculous mixture of epoch dates and readable datetimes and witness 🙀 the grand switcharoo 🎠
+Copypasta your machine-flavored datetimes from the db or whatever into the `ee`  and ahhhh 😌 a nice human date right there for you in 0 clicks 🌚. Pass a whole long list of some ridiculous mixture of epoch timestamps and readable datetimes and witness 🙀 the grand switcharoo 🎠
 
 Built with ✨and [typer](https://github.com/tiangolo/typer).
 
