@@ -69,7 +69,7 @@ def test_repl_with_index_always_env(runner, monkeypatch):
         Settings(show_indexes_always=True),
     )
 
-    result = runner.invoke(app, "--repl", input=repl_input_factory("i", "now"))
+    result = runner.invoke(app, "--repl", input=repl_input_factory("now"))
     last = last_frame(result)
     # there are pretty brackets and whitespace around the conversion
     _, _, conversion, _ = last.split("\n")
