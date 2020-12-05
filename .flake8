@@ -13,5 +13,6 @@ ignore=
   D105,
 per-file-ignores =
   # allow missing docstrings in tests
-  test_*.py: D100, D101, D102, D103
+  test_*.py: D100, D101, D102, D103, D400, D401
+  conftest.py: D100, D101, D102, D103, D400, D401
   constants.py: E501
