@@ -56,7 +56,16 @@ def content_state() -> Tuple[
             user_inputs.pop(index)
 
     def append_to_list(item):
-        """Add an item to the store for transformation."""
+        """Add an item to the store for transformation.
+
+        If the item is the inital message, don't add it to state. Why? Well...
+        In `.main`, the `default` kwarg passed to `typer.prompt` is always whatever is
+        "visible" according to the dispatcher. On an empty input for the user, the
+        "visible" value is `NO_TIMES_YET_MESSAGE`. So, we keep the EchoList instance
+        empty until something other than that is on the screen."""
+        if item == NO_TIMES_YET_MESSAGE:
+            return
+
         user_inputs.append(item)
 
     def quit():

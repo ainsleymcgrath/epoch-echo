@@ -138,6 +138,14 @@ def test_repl_drop(runner):
     assert "2 =>" not in last
 
 
+@pytest.mark.parametrize("blank_input", ["\n", ""])
+def test_repl_repeat_enter_key(blank_input, runner):
+    """I encountered a bug during usage where pressing <enter> without having typed
+    anything into the prompt caused the app to break."""
+    result = runner.invoke(app, "--repl", input=repl_input_factory(blank_input))
+    assert result.exit_code == 0, "Pressing enter without having typed anything is ok."
+
+
 def test_flip_with_output_format_env(runner, monkeypatch):
     monkeypatch.setattr(
         # overriding settings has the same effect as using an env var
