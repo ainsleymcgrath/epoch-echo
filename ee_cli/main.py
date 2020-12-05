@@ -22,16 +22,12 @@ def _repl():
     dispatch_alter_visible_content, visible_content = content_state()
 
     while True:
-        try:
-            input_ = typer.prompt(
-                "",
-                prompt_suffix=colored_prompt,  # suffix lookin like a prefix
-                default=visible_content(),
-                show_default=True,
-            )
-        except typer.Abort:
-            # see the quit function for why this is happening
-            quit()
+        input_ = typer.prompt(
+            "",
+            prompt_suffix=colored_prompt,  # suffix lookin like a prefix
+            default=visible_content(),
+            show_default=True,
+        )
 
         dispatch_alter_visible_content(input_)
         clear()
