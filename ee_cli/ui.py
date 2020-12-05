@@ -79,7 +79,11 @@ def make_dispatcher(
         The first word of the string is potentially an action named in one of the
         lists passed into the closure. The remaining words are passed to the action
         callable as arguments if they are present."""
-        key, *args = action.split(" ")
+        try:
+            key, *args = action.split(" ")
+        except AttributeError:
+            # when it's not a string or adequately string-ish, it's MEANINGLESS TO US
+            return
 
         if key in switch:
             switch[key](*args)
