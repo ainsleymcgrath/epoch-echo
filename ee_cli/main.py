@@ -9,7 +9,7 @@ from click import clear
 
 from ee_cli import __doc__, __version__
 from ee_cli.constants import CONFIGURATION_INFO, HOTWORDS_HELP
-from ee_cli.content import content_state
+from ee_cli.repl_content_state import content_state
 from ee_cli.ui import EchoList
 
 app = typer.Typer(name="ee", help="A salve for timesmiths 🧴🕰️")
