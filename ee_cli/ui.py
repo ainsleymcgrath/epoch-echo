@@ -1,7 +1,8 @@
-"""UI state management."""
+"""Stateful objects for displaying in repl UI.
+Dispatcher-cerator for building ways to alter them."""
 from collections.abc import MutableSequence, Sized
 from textwrap import indent
-from typing import Any, Callable, Set, Tuple
+from typing import Any, Callable, Dict, Set, Tuple
 
 from ee_cli.settings import Settings
 from ee_cli.utils import flip_time_format
@@ -66,16 +67,18 @@ def make_dispatcher(
 ) -> Callable[[str], None]:
     """Return a function that takes a string. Put *args in a closure for it to use.
 
-    Any member of a list of strings in any of *args will trigger the invocation of the
+    Any member of a set of strings in any of *args will trigger the invocation of the
     corresponding callable. If a default fn is passed, it will be called with any
     input passed to the dispatcher that is not in the closure, unaltered."""
-    switch = {action: fn for actions, fn in args for action in actions}
+    switch: Dict[str, Callable] = {
+        action: fn for actions, fn in args for action in actions
+    }
 
     def _dispatcher(action: str) -> None:
         """Affect external state, presumably. Do what you want I guess.
         The first word of the string is potentially an action named in one of the
         lists passed into the closure. The remaining words are passed to the action
-        callable if they are present."""
+        callable as arguments if they are present."""
         key, *args = action.split(" ")
 
         if key in switch:
