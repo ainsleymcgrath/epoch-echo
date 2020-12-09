@@ -1,5 +1,15 @@
 ## 1.1.0
 
+### Fixes
+- A bug where pressing <enter> repeatedly at the REPL would break it
+- Leaky state that was damaging tests. TY, closures!
+- An evergreen test case that was passing erroneously.
+
+### Changes
+- The arrangement of some code. `content.py` was not a descriptive name and confused the sole maintainer. `repl_content_state` is what's actually happening there.
+
+## 1.1.0
+
 :tada: Mostly code cleanup, a good deal of refactoring.
 
 ### Changes
