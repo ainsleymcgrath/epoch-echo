@@ -11,3 +11,7 @@ class Settings(BaseSettings):
     custom_datetime_output_format: str = ""
     extra_datetime_input_formats: List[str] = []
     show_indexes_always: bool = False
+    show_tz_heads_up: bool = True
+
+    class Config:  # noqa
+        env_prefix = "EE_"
