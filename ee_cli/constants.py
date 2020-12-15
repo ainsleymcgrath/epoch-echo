@@ -41,7 +41,10 @@ To see this help in the repl use: {typer.style(str(HELP_HOTWORDS), typer.colors.
  """  # the space is intentional
 
 CONFIGURATION_INFO = (
-    "\n".join(f"{k.upper()}: {v or '<unset>'}" for k, v in settings.dict().items())
+    "\n".join(
+        f"{settings.Config.env_prefix}{k.upper()}: {v or '<unset>'}"
+        for k, v in settings.dict(by_alias=True).items()
+    )
     + "\n "
 )
 
