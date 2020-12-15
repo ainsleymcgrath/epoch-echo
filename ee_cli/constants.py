@@ -44,3 +44,8 @@ CONFIGURATION_INFO = (
     "\n".join(f"{k.upper()}: {v or '<unset>'}" for k, v in settings.dict().items())
     + "\n "
 )
+
+MAYBE_TZ_HEADS_UP = typer.style(
+    settings.show_tz_heads_up and f" (tz={settings.default_timezone})" or "",
+    typer.colors.BRIGHT_YELLOW,
+)

@@ -8,16 +8,22 @@ import typer
 from click import clear
 
 from ee_cli import __doc__, __version__
-from ee_cli.constants import CONFIGURATION_INFO, HOTWORDS_HELP
+from ee_cli.constants import CONFIGURATION_INFO, HOTWORDS_HELP, MAYBE_TZ_HEADS_UP
 from ee_cli.repl_content_state import content_state
+from ee_cli.settings import Settings
 from ee_cli.ui import EchoList
 
 app = typer.Typer(name="ee", help="A salve for timesmiths 🧴🕰️")
+settings = Settings()
 
 
 def _repl():
     """Run the interface for interactively transforming dates."""
-    colored_prompt = typer.style("\n\n >  ", fg=typer.colors.BRIGHT_RED)
+    colored_prompt = typer.style(
+        # concatenate strings to maintain coloring. f-strings break colors.
+        f"\n\n{MAYBE_TZ_HEADS_UP}"
+        + typer.style(" >  ", fg=typer.colors.BRIGHT_RED)
+    )
     clear()  # create a full-screen view
     dispatch_alter_visible_content, visible_content = content_state()
 
@@ -127,3 +133,4 @@ def main(
         return
 
     typer.echo(output.plain_str() if plain else output)
+    typer.echo(MAYBE_TZ_HEADS_UP)
