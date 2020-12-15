@@ -133,4 +133,7 @@ def main(
         return
 
     typer.echo(output.plain_str() if plain else output)
-    typer.echo(MAYBE_TZ_HEADS_UP)
+    # if it's not plain, we add a 3-space indent to match the styled EchoList.__str__
+    # if it *is* plain, we add the newline because EchoList.plain_str doesn't have one
+    maybe_indent = "   " if not plain else "\n"
+    typer.echo(f"{maybe_indent}{MAYBE_TZ_HEADS_UP}")

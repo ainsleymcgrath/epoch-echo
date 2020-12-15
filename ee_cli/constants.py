@@ -46,6 +46,6 @@ CONFIGURATION_INFO = (
 )
 
 MAYBE_TZ_HEADS_UP = typer.style(
-    settings.show_tz_heads_up and f" (tz={settings.default_timezone})" or "",
+    f"(tz={settings.default_timezone})" if settings.show_tz_heads_up else "",
     typer.colors.BRIGHT_YELLOW,
 )

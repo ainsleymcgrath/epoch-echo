@@ -12,6 +12,12 @@ from ee_cli.main import app
 from ee_cli.settings import Settings
 
 
+@pytest.fixture(autouse=True)
+def turn_off_tz_heads_up(monkeypatch):
+    monkeypatch.setattr("ee_cli.main.MAYBE_TZ_HEADS_UP", "")
+    monkeypatch.setattr("ee_cli.constants.MAYBE_TZ_HEADS_UP", "")
+
+
 def repl_input_factory(*strings):
     """Return the strings joined by newlines.
     Last element is always 'done' at the end so repl can exit"""
