@@ -1,4 +1,18 @@
-## 1.1.0
+## 1.1.2
+
+### New
+
+- A new option (on by default) shows a heads up of what timezone you're using. Toggle it with `EE_TZ_SHOW_HEADS_UP`.
+
+### Breaks
+
+- Environment variables are now prefixed with `EE_` to avoid collisions. Old-style env vars will not work anymore.
+
+### Fixes
+
+- The changelog entry below. It had the wrong version! :sweat_smile:
+
+## 1.1.1
 
 ### Fixes
 - A bug where pressing <enter> repeatedly at the REPL would break it

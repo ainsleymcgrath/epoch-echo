@@ -42,7 +42,7 @@ To see this help in the repl use: {typer.style(str(HELP_HOTWORDS), typer.colors.
 
 CONFIGURATION_INFO = (
     "\n".join(
-        f"{settings.Config.env_prefix}{k.upper()}: {v or '<unset>'}"
+        f"{settings.Config.env_prefix}{k.upper()}: {v}"
         for k, v in settings.dict(by_alias=True).items()
     )
     + "\n "
