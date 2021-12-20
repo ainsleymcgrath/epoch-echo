@@ -59,11 +59,11 @@ def test_repl_failed_conversion(runner):
 
 
 def test_repl_conversions(runner):
-    result = runner.invoke(
-        app, "--repl", input=repl_input_factory("now", "tomorrow", "today")
-    )
+    INPUTS = "now", "tomorrow", "today", "Feb 1 2021", "Jan 02 2021", "01-01-22"
+    result = runner.invoke(app, "--repl", input=repl_input_factory(*INPUTS))
+
     last = last_frame(result)
-    assert all(s in last for s in ["now", "tomorrow", "today"]), "No inputs get lost"
+    assert all(s in last for s in INPUTS), "No inputs get lost"
     assert "Couldn't" not in last
 
 

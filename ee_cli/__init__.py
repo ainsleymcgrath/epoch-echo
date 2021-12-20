@@ -1,3 +1,3 @@
-# noqa: D400
+# flake8: noqa
 """A salve for timesmiths. 🧴🕰️"""
-__version__ = "1.1.2"
+__version__ = "1.1.3"

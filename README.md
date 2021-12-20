@@ -14,7 +14,7 @@ Born from the grumblings of a crunchy shell-dweller, `ee-cli` is designed to fit
 
 `ee` takes any arbitrary combination of  epoch timestamps, datetimes, times, dates, etc, and prints them back as the opposite. `ee` uses [pendulum](https://pendulum.eustace.io) for these conversions.
 
-By default, `ee` supports input from the [same datetime formats](https://pendulum.eustace.io/docs/#rfc-3339) as `pendulum.parse`, plus the conveniences of "now," "tomorrow," "today," and "yeterday."
+By default, `ee` supports input from the [same datetime formats](https://pendulum.eustace.io/docs/#tokens) as `pendulum.parse`, plus the conveniences of "now," "tomorrow," "today," and "yeterday."
 
 More input formats can be used by setting the `EXTRA_DATETIME_INPUT_FORMATS` environment variable to a json array of [these tokens](https://pendulum.eustace.io/docs/#tokens) in pendulum
 

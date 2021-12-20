@@ -3,7 +3,11 @@ from typing import Union
 
 import pendulum
 
-from ee_cli.constants import COULD_NOT_PARSE_ERROR_MESSAGE, PENDULUM_SEMANTIC_ATTRS
+from ee_cli.constants import (
+    COULD_NOT_PARSE_ERROR_MESSAGE,
+    DEFAULT_DATETIME_INPUT_FORMATS,
+    PENDULUM_SEMANTIC_ATTRS,
+)
 from ee_cli.settings import Settings
 
 settings = Settings()
@@ -35,7 +39,9 @@ def flip_time_format(date: str, tz: str = settings.default_timezone) -> str:
             return str(_epoch_int_no_millis(value.timestamp()))
         try:
             epoch_from_custom_format = try_parse_formats(
-                date, *settings.extra_datetime_input_formats
+                date,
+                *DEFAULT_DATETIME_INPUT_FORMATS,
+                *settings.extra_datetime_input_formats
             )
             if epoch_from_custom_format is not None:
                 return epoch_from_custom_format

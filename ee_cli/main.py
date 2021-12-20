@@ -70,7 +70,10 @@ def main(
         None,
         help="Dates/datetimes separated by spaces.\n"
         "Can be in the style of an epoch timestamp (milliseconds will be ignored) or\n"
-        "in any of the formats specified in EXTRA_DATETIME_INPUT_FORMATS",
+        "Any of YYYY-MM-DD, MM-DD-YY, MMM DD YYYY, MMM D YYYY, MMM D YY, MMM DD YY or\n"
+        "in any of the formats specified in EXTRA_DATETIME_INPUT_FORMATS, which can be "
+        "any of the formats supported by Pendulum: "
+        "https://pendulum.eustace.io/docs/#tokens",
     ),
     copy: bool = typer.Option(
         False,

@@ -52,3 +52,11 @@ MAYBE_TZ_HEADS_UP = typer.style(
     f"(tz={settings.default_timezone})" if settings.show_tz_heads_up else "",
     typer.colors.BRIGHT_YELLOW,
 )
+
+DEFAULT_DATETIME_INPUT_FORMATS = (
+    "MM-DD-YY",
+    "MMM DD YYYY",
+    "MMM D YYYY",
+    "MMM D YY",
+    "MMM DD YY",
+)
