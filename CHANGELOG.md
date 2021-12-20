@@ -1,3 +1,10 @@
+## 1.1.3
+
+### New
+
+- The following input formats are now supported by default in addition to the original `YYYY-MM-DD`:
+`"MM-DD-YY", "MMM DD YYYY", "MMM D YYYY", "MMM D YY", "MMM DD YY"`
+
 ## 1.1.2
 
 ### New
